@@ -1,0 +1,10 @@
+# Evaluating Your Model's Performance 
+
+:::{.callout-caution icon="false"}
+# In this chapter you'll learn:
+1. How to measure how good your model is.
+2. Different metrics to measure goodness of fit and how to use the metrics functions available in `ScikitLearn`.
+3. How to interpret the results from metrics functions.
+:::
+
+In the last chapter we learned how to train our simple model on a dataset. But how do we know the model has really learned the patterns in the data?

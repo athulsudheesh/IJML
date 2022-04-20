@@ -1,0 +1,31 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Introduction to Julia Machine Learning"
+  logo: Black and White Cube Graphic Design Book Cover.png
+  subtitle: Using ScikitLearn
+  author: "Athul Sudheesh"
+  chapters:
+    - index.qmd
+    - hellojulia.qmd
+    - firstmodel.qmd
+    - evaluation.qmd
+    - summary.qmd
+    - references.qmd
+  sidebar: 
+    border: true
+bibliography: references.bib
+
+format:
+  html:
+    theme: litera
+    fontsize: 12pt
+    page-layout: article
+    reader-mode: true
+  pdf:
+    documentclass: book
+
+
+

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.178">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Introduction to Julia Machine Learning - 1&nbsp; Hello Julia!</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <link href="./firstmodel.html" rel="next">
+  <link href="./index.html" rel="prev">
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./">
+      <img src="./Black and White Cube Graphic Design Book Cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introduction to Julia Machine Learning</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hellojulia.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstmodel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Evaluating Your Model’s Performance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#installation-setup" class="nav-link active" data-scroll-target="#installation-setup"> <span class="header-section-number">1.1</span> Installation &amp; Setup</a>
+<ul class="collapse">
+<li><a href="#sec-install-julia" class="nav-link" data-scroll-target="#sec-install-julia"> <span class="header-section-number">1.1.1</span> Installing Julia</a></li>
+<li><a href="#installing-visual-studio-code" class="nav-link" data-scroll-target="#installing-visual-studio-code"> <span class="header-section-number">1.1.2</span> Installing Visual Studio Code</a></li>
+<li><a href="#installing-julia-extension-for-vs-code" class="nav-link" data-scroll-target="#installing-julia-extension-for-vs-code"> <span class="header-section-number">1.1.3</span> Installing Julia Extension for VS Code</a></li>
+<li><a href="#sec-extension-check" class="nav-link" data-scroll-target="#sec-extension-check"> <span class="header-section-number">1.1.4</span> Checking if the Julia Extension is configured properly</a></li>
+<li><a href="#sec-ext-config" class="nav-link" data-scroll-target="#sec-ext-config"> <span class="header-section-number">1.1.5</span> Fixing the Extension Configuration Manually</a></li>
+<li><a href="#sec-julia-vscode-default" class="nav-link" data-scroll-target="#sec-julia-vscode-default"> <span class="header-section-number">1.1.6</span> Setting Julia as the default language in VS Code</a></li>
+</ul></li>
+<li><a href="#know-your-ide" class="nav-link" data-scroll-target="#know-your-ide"> <span class="header-section-number">1.2</span> Know Your IDE</a>
+<ul class="collapse">
+<li><a href="#julia-repl" class="nav-link" data-scroll-target="#julia-repl"> <span class="header-section-number">1.2.1</span> Julia REPL</a></li>
+<li><a href="#sec-install-package" class="nav-link" data-scroll-target="#sec-install-package"> <span class="header-section-number">1.2.2</span> Installing Packages</a></li>
+<li><a href="#sec-julia-files" class="nav-link" data-scroll-target="#sec-julia-files"> <span class="header-section-number">1.2.3</span> Julia Files</a></li>
+<li><a href="#sec-julia-script" class="nav-link" data-scroll-target="#sec-julia-script"> <span class="header-section-number">1.2.4</span> Running Your First Julia Script</a></li>
+</ul></li>
+<li><a href="#project-environments" class="nav-link" data-scroll-target="#project-environments"> <span class="header-section-number">1.3</span> Project Environments</a></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></h1></div></header>
+
+<div class="callout-caution callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+In this chapter you’ll learn:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>How to install &amp; setup Julia &amp; Visual Studio Code in your computer.</li>
+<li>Understanding your Integrated Development Environment (IDE).</li>
+<li>How to install packages to extend your Julia’s capabilities.</li>
+<li>What Project environments are and how to configure them.</li>
+</ol>
+</div>
+</div>
+<section id="installation-setup" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="installation-setup"><span class="header-section-number">1.1</span> Installation &amp; Setup</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This section is written for complete beginners to programming. If you know how to configure the language extensions in VS Code, please skip this section.</p>
+</div>
+</div>
+<section id="sec-install-julia" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="sec-install-julia"><span class="header-section-number">1.1.1</span> Installing Julia</h3>
+<p>To install the latest version of Julia, go to <a href="https://julialang.org/downloads/">https://julialang.org/downloads/</a> and download the <em>Current stable release</em> corresponding to your operating system and architecture. For Windows machines, in most cases, you need to download the installer for 64-bit. For M1 Macs, it is recommended to download the Intel/Rosetta version than the M-series processor as the later version may be unstable. During the installation process, you might want to note down the installation directory for Julia (copy the path somewhere handy). This path might be required to configure your VS Code.</p>
+</section>
+<section id="installing-visual-studio-code" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="installing-visual-studio-code"><span class="header-section-number">1.1.2</span> Installing Visual Studio Code</h3>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t confuse Visual Studio Code (a.k.a VS Code) with Visual Studio; they are two different applications.</p>
+</div>
+</div>
+<p>You can install the latest version of VS Code from their <a href="https://code.visualstudio.com">home page</a>.</p>
+</section>
+<section id="installing-julia-extension-for-vs-code" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="installing-julia-extension-for-vs-code"><span class="header-section-number">1.1.3</span> Installing Julia Extension for VS Code</h3>
+<p>Once your VS Code installation is complete, you can open the application either from the Desktop (Windows) or the applications launchpad (Mac). After launching the VS Code application, there are three ways you can access the VS Code Extensions panel:</p>
+<ul>
+<li>via hotkeys: Press <code>Ctrl + Shift +X</code> (for Windows) or <code>Cmd + Shift +X</code> (for Mac).</li>
+<li>via menu bar: From your VS Code top menu bar choose <code>View</code> –&gt; <code>Extensions</code></li>
+<li>via icons on the left of your VS Code application: Find and click on the icon with four squares, where one piece is detached from the rest (<a href="#fig-vscode-ext">Figure&nbsp;<span>1.1</span></a>. a).</li>
+</ul>
+<div id="fig-vscode-ext" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/vscode-extension.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.1: <strong>Installing Julia extension</strong>. Figure (a) illustrates the two ways you can access the extension panel. Figure (b) illustrates how to search and find the Julia extension.</figcaption><p></p>
+</figure>
+</div>
+<p>This will open-up a panel towards the left side of your VS Code application; that’s your extensions panel. Towards the top of your extension panel you will see a search box where you have to search for <code>Julia</code>. In the results, you will see <code>Julia</code> listed as the top entry. Right next to it, you will also see the <code>Install</code> button. Click on it. (<a href="#fig-vscode-ext">Figure&nbsp;<span>1.1</span></a>. b).</p>
+</section>
+<section id="sec-extension-check" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="sec-extension-check"><span class="header-section-number">1.1.4</span> Checking if the Julia Extension is configured properly</h3>
+<p>In most cases VS Code should be able to automatically configure the path to julia executable. To check if you have got everything right:</p>
+<ul>
+<li>Do <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (Mac)</li>
+<li>Type <em>Start Julia REPL </em>and hit enter.</li>
+</ul>
+<p>If a new panel pop-up at the bottom of your VS Code with <code>julia</code> prompt (as shown below), that means your VS Code Julia extension is properly configured</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sec-ext-config" class="level3" data-number="1.1.5">
+<h3 data-number="1.1.5" class="anchored" data-anchor-id="sec-ext-config"><span class="header-section-number">1.1.5</span> Fixing the Extension Configuration Manually</h3>
+<p>If you don’t get the <code>julia</code> prompt that means VS Code has failed to automatically configure the path to julia executable. To manually configure, follow these steps (<em>also refer to <a href="#fig-ext-fix">Figure&nbsp;<span>1.2</span></a></em>):</p>
+<ul>
+<li>Open your VS Code extensions panel using any one of the methods mentioned above.</li>
+<li>Search for Julia. Now instead of seeing the install button next to <code>Julia</code> entry, you will see a gear. Click on it.</li>
+<li>Upon clicking on the gear button, a drop down menu will pop up. Choose <code>Extension Settings</code> from the list. This will open up the setting page.</li>
+<li>In the setting page, you should find a search box at the top. In the search box, type <code>julia executable</code></li>
+<li>Now you will see an empty field with the title “Julia: Executable Path”.
+<ul>
+<li>(Windows users): In this field, you need to enter/paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span>1.1.1</span></a>). (Make sure the path ends with <code>\bin\julia.exe</code>).</li>
+<li>(Mac users): Run julia from the applications launchpad (just the way you open any other application in Mac). Once the Julia application is open you will see a path within single quotes right before the Julia logo banner. Copy everything between those quotes (excluding the quotes) and paste them into the “Julia: Executable Path” field in VS Code Julia extension.<br>
+</li>
+</ul></li>
+<li>Close VS Code completely and open it again for the changes to reflect.</li>
+<li>Now repeat the steps mentioned in <a href="#sec-extension-check">Section&nbsp;<span>1.1.4</span></a> to check if your configuration is working.</li>
+</ul>
+<div id="fig-ext-fix" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/fix-julia-ext2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.2: <strong>Configuring Julia extension manually.</strong> Paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span>1.1.1</span></a>) in the textbox area highlighted.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="sec-julia-vscode-default" class="level3" data-number="1.1.6">
+<h3 data-number="1.1.6" class="anchored" data-anchor-id="sec-julia-vscode-default"><span class="header-section-number">1.1.6</span> Setting Julia as the default language in VS Code</h3>
+<ul>
+<li>Follow the instructions described in <a href="#sec-ext-config">Section&nbsp;<span>1.1.5</span></a> (until step three) to access the extension settings.</li>
+<li>Clear all existing text in the search box of extension setting and search for <code>default language mode</code>.</li>
+<li>In the textbox for <em>Files: Default Language</em> that appear, type <code>julia</code> (make sure all are lowercase).</li>
+</ul>
+</section>
+</section>
+<section id="know-your-ide" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="know-your-ide"><span class="header-section-number">1.2</span> Know Your IDE</h2>
+<p>IDE stands for Integrated Development Environment and are software that combine developer tools into a unified user interface. The primary goal of an IDE is to increase the productivity of the developer by automating as many redundant configuration steps as possible. Modern IDEs like VS Code provide functionalities like syntax highlighting (highlights different component of language in different fonts and color), code completion (similar to word completion in MS Word), debugging (tools to debug your code when it is not behaving the way you wanted it to behave), code search (a local search engine for your project), file explorer, language terminal (for quick prototyping), and many more (<a href="#fig-vscode-home">Figure&nbsp;<span>1.3</span></a>).</p>
+<div id="fig-vscode-home" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/vscode-tour.png" class="img-fluid figure-img" data-fig.pos="h"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.3: Julia VS Code IDE.</figcaption><p></p>
+</figure>
+</div>
+<p>VS Code, by default, is a simple code/text editor and it is the extensions (similar to the Julia extension you installed) that bring the complete IDE experience to VS Code users. <a href="#fig-vscode-home">Figure&nbsp;<span>1.3</span></a> provides a visual overview of the VS Code environment during a typical Julia workflow with an active project environment. To activate the Julia language environment inside VS Code:</p>
+<ul>
+<li>Do <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (Mac). This opens the Command Palette with a search box.</li>
+<li>Type <code>Julia REPL</code> into the search box and hit enter.</li>
+</ul>
+<p>If the Julia extension is properly configured, the above commands will open a new terminal with <code>julia&gt;</code> prompt (in most cases as the bottom panel in VS Code window). This terminal with <code>julia&gt;</code> prompt is commonly known as the REPL.</p>
+<section id="julia-repl" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="julia-repl"><span class="header-section-number">1.2.1</span> Julia REPL</h3>
+<p>REPL stands for Read-Evaluate-Print-Loop and is a method for exploratory programming and debugging. Julia’s REPL provides different prompt modes and the default one is the Julian (<code>julia&gt;</code>) mode.</p>
+<ul>
+<li><p><strong>Julian Mode.</strong> In julian mode, you can run any julia commands and the results will be displayed within the same terminal. It is very common among julia programmers to use the julian mode in the REPL to try out simple algorithms and ideas. After placing the cursor on the REPL, if you press the up arrow or down arrow, you can access your REPL history (i.e.&nbsp;commands you ran in the REPL).</p></li>
+<li><p><strong>Help Mode.</strong> To access help mode, first place the cursor on the REPL and press <code>?</code> in your keyboard. You will see that the <code>julia&gt;</code> prompt have changed to <code>help?&gt;</code> prompt. This means you are in the help mode. Inside the help mode if you type a function name and hit enter, julia will attempt to print the documentation associated with that function/command in the same terminal.</p></li>
+<li><p><strong>Package Mode.</strong> Package mode can be accessed from the julian mode by pressing <code>]</code> key. This will turn the <code>julia&gt;</code> prompt to <code>(@v1.7) pkg&gt;</code> prompt. Package mode is needed for installing, updating, and removing julia packages from your projects and computer.</p></li>
+</ul>
+<p>To return to the default julian mode from one of the other modes, press backspace.</p>
+</section>
+<section id="sec-install-package" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="sec-install-package"><span class="header-section-number">1.2.2</span> Installing Packages</h3>
+<p>Once you are in the package manager mode you can install a package using the command <code>add</code>. For e.g., to install the <code>StatsBase</code> package you’ll enter <code>add StatsBase</code> into your package manager mode and hit enter. Once the installation of the package is over, the prompt will return back to <code>(@v1.7) pkg</code>. To remove a package you use the <code>rm</code> command, and to update a package you use <code>update</code> command. Just like the <code>add</code> command, you also need to pass the name of the package in all these cases. You can use the <code>st</code> command to see the list of packages installed in your computer/project environment.</p>
+<section id="but-what-are-packages" class="level5" data-number="1.2.2.0.1">
+<h5 data-number="1.2.2.0.1" class="anchored" data-anchor-id="but-what-are-packages"><span class="header-section-number">1.2.2.0.1</span> But What are Packages?</h5>
+<p>A Julia package or a library is a collection of functions and sub-modules surrounding an idea or concept bundled as a single unit. Each function can be considered as a collection of code whose objective is to perform a specific task. The standard Julia installation comes with only a handful of very important packages to get you started. To extend the capabilities of julia, you install packages with the help of julia’s package manager (<a href="#sec-install-package">Section&nbsp;<span>1.2.2</span></a>).</p>
+</section>
+</section>
+<section id="sec-julia-files" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="sec-julia-files"><span class="header-section-number">1.2.3</span> Julia Files</h3>
+<p>Although you can completely develop julia packages/programs/scripts within the julia REPL, an easier and faster workflow for developing code is by writing the commands in a file and running that file in the julia REPL. To open a new file, do <code>Cmd + N</code> (Mac) or <code>Ctrl +N</code> (Windows). You can also open a new file using the menu bar: Choose <code>File</code> –&gt; <code>New File</code>. If you have configured the default language for VS Code as julia (<a href="#sec-julia-vscode-default">Section&nbsp;<span>1.1.6</span></a>), the newly opened file will be a julia file. It is important for VS Code to know the type of the file for syntax highlighting, auto code completion and for running the file in the appropriate language’s compiler. Once you have a file open in your VS Code, you can start writing your code line by line in that file.</p>
+</section>
+<section id="sec-julia-script" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="sec-julia-script"><span class="header-section-number">1.2.4</span> Running Your First Julia Script</h3>
+<p>Suppose you wanted to write a julia script to solve for hypotenuse using the pythagoras theorem. You know that as per the pythagoras theorem, <span class="math inline">\(c = \sqrt{a^2 + b^2}\)</span>, where <span class="math inline">\(c\)</span> is the hypotenuse, and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are the sides of a right triangle. You also know that <span class="math inline">\((3,4,5)\)</span> is a pythagorean triple. So now let’s implement this in code and see if it gives the right answer.</p>
+<p>As a first step you enter the following lines of code into your newly opened julia file in VS Code:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">3</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">4</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">sqrt</span>(a<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> b<span class="op">^</span><span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now save this file either using <code>Cmd + S</code> command or <code>File</code> –&gt; <code>Save</code>. You can give any names you want, but it is always recommended to use meaningful names (in this case, say <code>pythagoras.jl</code>) so it is easier to find these files later. While saving the file also make sure the file have a <code>.jl</code> extension. Once you have saved the file, you have three ways to run this script:</p>
+<ul>
+<li>Manually run the script line by line.</li>
+<li>Run the script as a whole.</li>
+<li>Run the file from REPL.</li>
+</ul>
+<p>To manually run the script line by line, you can place the cursor on the first line of code and then do <code>Shift + Enter</code>. If the cursor hasn’t moved automatically to the next line, you can use the down arrow key to move the cursor to the next line. Now you repeat <code>Shift+Enter</code> until the last line of code in your file. Once a line of code is executed, the output of that command is either shown right next to the command or is printed in the REPL.</p>
+<p>To run the script as a whole, you click on the play button you see in the tab bar of VS Code. While running scripts using this method, only the output of the last line of code is displayed in the REPL. In our case, the output will be:</p>
+<div class="cell" data-execution_count="2">
+<div class="cell-output-display" data-execution_count="2">
+<pre><code>5.0</code></pre>
+</div>
+</div>
+<p>To run the file in REPL, you type <code>include("YourFileName.jl")</code> (in our case <code>include("pythagoras.jl")</code>) into your REPL and hit enter. The codes’ behavior will be similar to the one when you run the script as a whole using the run button.</p>
+</section>
+</section>
+<section id="project-environments" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="project-environments"><span class="header-section-number">1.3</span> Project Environments</h2>
+<p>A good programming practice is to always have separate folders for each Julia project you are working on. However, just having separate folders isn’t going to ensure either reproducibility or an isolated workspace. (Reproducibility is the property of your project/code to behave exactly in the same way in a computer other than one in which it was developed.). To have an isolated workspace, on top of having a separate folder for your projects, you should also be having what’s called separate project environments (<a href="#fig-proj_env">Figure&nbsp;<span>1.4</span></a>). Project environments are like isolated pockets of spaces where your interaction with one pocket doesn’t affect the state of another pocket.</p>
+<div id="fig-proj_env" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/project_env.jpg" class="img-fluid figure-img" data-fig.pos="h" style="width:55.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.4: A schematic diagram to understand the concept of system environment and project environments.</figcaption><p></p>
+</figure>
+</div>
+<p>When you install a specific version of Julia, Julia creates an environment for that particular version. For example, when you installed Julia 1.7 in your computer, julia also created an environment with the name 1.7. This is sometimes referred as the global environment or the system environment. If you didn’t activate a particular project’s local environment before staring to work on your project, by default the system environment will be chosen and all your interaction with the package manager will be affecting the package state of your Julia’s system environment. For every project environment (including system environment), Julia creates two files: Manifest.toml and Project.toml. The goal of these files is to captures the list of packages along with their version number that you are installing within that environment.</p>
+<p>To activate a local environment for your project:</p>
+<ul>
+<li>Open your project folder using VS Code: <code>File</code> –&gt; <code>Open Folder</code>.</li>
+<li>Now start the Julia REPL using <code>Ctrl + Shift + P</code> (or <code>Cmd + Shift + P</code>).</li>
+<li>Enter package manager mode. If you are seeing <code>(@v1.7) pkg</code>, that means you are in Julia’s system environment.</li>
+<li>To create <code>\</code> activate local environment for your project, type <code>activate .</code> and hit Enter.</li>
+<li>If your project environment was successfully activated, <code>(@v1.7) pkg</code> will turn into <code>(Your Folder Name) pkg</code>.</li>
+</ul>
+
+
+
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./firstmodel.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

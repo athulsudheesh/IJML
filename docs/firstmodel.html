@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.178">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Introduction to Julia Machine Learning - 2&nbsp; Your First Model</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <link href="./evaluation.html" rel="next">
+  <link href="./hellojulia.html" rel="prev">
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./">
+      <img src="./Black and White Cube Graphic Design Book Cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introduction to Julia Machine Learning</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hellojulia.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstmodel.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Evaluating Your Model’s Performance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#sec-ml" class="nav-link active" data-scroll-target="#sec-ml"> <span class="header-section-number">2.1</span> What is Machine Learning?</a>
+<ul class="collapse">
+<li><a href="#supervised-unsupervised-and-semi-supervised-learning" class="nav-link" data-scroll-target="#supervised-unsupervised-and-semi-supervised-learning"> <span class="header-section-number">2.1.1</span> Supervised, Unsupervised, and Semi-supervised learning</a></li>
+</ul></li>
+<li><a href="#implementing-a-simple-model" class="nav-link" data-scroll-target="#implementing-a-simple-model"> <span class="header-section-number">2.2</span> Implementing a simple model</a>
+<ul class="collapse">
+<li><a href="#logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"> <span class="header-section-number">2.2.1</span> Logistic Regression</a></li>
+<li><a href="#sec-optimization" class="nav-link" data-scroll-target="#sec-optimization"> <span class="header-section-number">2.2.2</span> How do Models learn?</a></li>
+<li><a href="#step-1-project-environment-activation-and-package-installation" class="nav-link" data-scroll-target="#step-1-project-environment-activation-and-package-installation">Step 1: Project environment activation and Package Installation</a></li>
+<li><a href="#step-2-loading-the-packages" class="nav-link" data-scroll-target="#step-2-loading-the-packages">Step 2: Loading the packages</a></li>
+<li><a href="#step-3-loading-the-dataset" class="nav-link" data-scroll-target="#step-3-loading-the-dataset">Step 3: Loading the dataset</a></li>
+<li><a href="#step-4-making-sense-of-the-dataset" class="nav-link" data-scroll-target="#step-4-making-sense-of-the-dataset">Step 4: Making sense of the dataset</a></li>
+<li><a href="#accessing-elements-in-the-data" class="nav-link" data-scroll-target="#accessing-elements-in-the-data">Accessing elements in the data</a></li>
+<li><a href="#step-5-choosing-the-features-and-the-target" class="nav-link" data-scroll-target="#step-5-choosing-the-features-and-the-target">Step 5: Choosing the features and the target</a></li>
+<li><a href="#step-6-creating-a-model-instance" class="nav-link" data-scroll-target="#step-6-creating-a-model-instance">Step 6: Creating a Model Instance</a></li>
+<li><a href="#step-7-training-your-model" class="nav-link" data-scroll-target="#step-7-training-your-model">Step 7: Training your model</a></li>
+<li><a href="#code-summary-for-chapter-2" class="nav-link" data-scroll-target="#code-summary-for-chapter-2">Code Summary for Chapter 2</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></h1></div></header>
+
+<div class="callout-caution callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+In this chapter you’ll learn:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>What is machine learning and what are the different types of learning algorithms.</li>
+<li>What do you mean by a model in machine learning.</li>
+<li>How to implement a simple model using <code>ScikitLearn.jl</code></li>
+</ol>
+</div>
+</div>
+<section id="sec-ml" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-ml"><span class="header-section-number">2.1</span> What is Machine Learning?</h2>
+<p>Machine Learning is a sub-field of statistics and optimization where your goal is to design, develop, and analyze algorithms that can learn patterns in the data. Algorithms can be thought of as procedures you need to follow to achieve a goal. Some examples of instances in your life where you use an algorithm include recipes for food, instructions for the direction to a place, strategies for solving a math problem, etc. (Computer algorithms are definitely different from the above examples, but I hope you got the general gist of what an algorithm means) Let’s take the example of food recipes to understand some concepts in machine learning further.</p>
+<p>Everyone who has learned to cook by themselves knows that the meal isn’t guaranteed to taste that well the first time they try a new recipe. But with multiple attempts, you learn to adjust the spiciness, sourness, sweetness, gravy level, etc., to the right proportion that you will be successful in preparing an outstanding meal. If they were to record each of their attempts in a table, it would have looked something like this:</p>
+<div class="cell" data-execution_count="1">
+<div id="reiepe_data" class="cell-output-display" data-execution_count="220">
+<div class="data-frame"><p>10 rows × 7 columns</p><table class="data-frame table table-sm table-striped"><caption>Food ingredients and their proportions.</caption><thead><tr><th></th><th>Chilly_Powder</th><th>Sugar</th><th>Salt</th><th>Pepper</th><th>Broth_Oz</th><th>Serves</th><th>Tastes</th></tr><tr><th></th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>2.0</td><td>1</td><td>2.0</td><td>3</td><td>4.0</td><td>2</td><td>Best</td></tr><tr><th>2</th><td>1.0</td><td>2</td><td>2.0</td><td>4</td><td>6.5</td><td>2</td><td>Edible</td></tr><tr><th>3</th><td>2.5</td><td>0</td><td>3.0</td><td>4</td><td>4.0</td><td>3</td><td>Edible</td></tr><tr><th>4</th><td>1.5</td><td>3</td><td>1.0</td><td>4</td><td>9.0</td><td>4</td><td>Edible</td></tr><tr><th>5</th><td>1.0</td><td>5</td><td>1.5</td><td>1</td><td>8.5</td><td>2</td><td>Non-Edible</td></tr><tr><th>6</th><td>3.0</td><td>5</td><td>3.0</td><td>2</td><td>6.5</td><td>3</td><td>Non-Edible</td></tr><tr><th>7</th><td>2.0</td><td>0</td><td>3.0</td><td>2</td><td>8.5</td><td>1</td><td>Non-Edible</td></tr><tr><th>8</th><td>2.0</td><td>1</td><td>2.0</td><td>4</td><td>11.5</td><td>3</td><td>Non-Edible</td></tr><tr><th>9</th><td>1.0</td><td>5</td><td>0.0</td><td>1</td><td>4.5</td><td>3</td><td>Best</td></tr><tr><th>10</th><td>1.5</td><td>3</td><td>2.5</td><td>4</td><td>5.5</td><td>3</td><td>Edible</td></tr></tbody></table></div>
+</div>
+</div>
+<p><em>Note: Values in the above table were randomly generated.</em></p>
+<p>In most cases, a table like the above one is called the data and each of your attempts (each row) is called an observation. With a data like this I can do 2 things:</p>
+<ol type="1">
+<li>Learn how values for each of <code>Chilly_Powder</code>, <code>Sugar</code>, <code>Salt</code>, <code>Pepper</code>, <code>Broth_Oz</code> and <code>Serves</code> influence the <code>Tastes</code> and use that information to come up with the best combination of values to ensure <code>Best</code> taste all the time. This is called <strong><em>inferential modeling</em></strong>.</li>
+<li>Given a set of values for <code>Chilly_Powder</code>, <code>Sugar</code>, <code>Salt</code>, <code>Pepper</code>, <code>Broth_Oz</code> and <code>Serves</code>, I can predict if the meal is going to be <code>Edible</code> or not. This is called <strong><em>predictive modeling</em></strong>.</li>
+</ol>
+<p>If we use the machine learning terminologies, the columns <code>Chilly_Powder</code>, <code>Sugar</code>, <code>Salt</code>, <code>Pepper</code>, <code>Broth_Oz</code> and <code>Serves</code> are called <strong><em>features</em></strong> and the column <code>Tastes</code> is called <strong><em>target</em></strong>. The degree of effect each variable has on the <code>Tastes</code> are called parameters.</p>
+<p>The mathematical representation of the above information in a functional form is called a <strong><em>model</em></strong>. So, for the food recipe example, our model is:</p>
+<p>Chances (Probability) of the meal being edible = <span class="math inline">\(f(\)</span> <span class="math inline">\(\theta_1 \times\)</span> <code>Chilly_Powder</code> + <span class="math inline">\(\theta_2 \times\)</span> <code>Sugar</code> + <span class="math inline">\(\theta_3 \times\)</span> <code>Salt</code> + <span class="math inline">\(\theta_4 \times\)</span> <code>Pepper</code> + <span class="math inline">\(\theta_5 \times\)</span> <code>Broth_Oz</code> + <span class="math inline">\(\theta_6 \times\)</span> <code>Serves</code> <span class="math inline">\()\)</span></p>
+<section id="supervised-unsupervised-and-semi-supervised-learning" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="supervised-unsupervised-and-semi-supervised-learning"><span class="header-section-number">2.1.1</span> Supervised, Unsupervised, and Semi-supervised learning</h3>
+<p>The parameters, <span class="math inline">\(\theta_1, \theta_2, ....\theta_6\)</span>, represent the patterns in the given dataset and the goal of a Machine Learning algorithm is to find values for <span class="math inline">\(\theta_1, \theta_2, ....\theta_6\)</span>, so that I can reliably predict <code>Tastes</code> all the time. This type of machine learning problem, where I have information about the outcome of each attempt, is called <strong><em>supervised learning</em></strong>.</p>
+<p>Suppose in our food recipe example, we didn’t have information about if the meal was edible or not; finding patterns in the data is still possible. The type of machine learning problem, where I don’t have information about the outcome of each attempt is called <strong><em>unsupervised learning</em></strong>.</p>
+<p>Sometimes we use both supervised and unsupervised learning strategy to solve a problem and those types of machine learning problems are called <strong><em>semi-supervised learning</em></strong>.</p>
+<p>Now let’s learn how to implement a simple model for a supervised learning problem similar to the one we discussed above.</p>
+</section>
+</section>
+<section id="implementing-a-simple-model" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="implementing-a-simple-model"><span class="header-section-number">2.2</span> Implementing a simple model</h2>
+<p>In this section we’ll learn how to implement a simple logistic regression model to predict if a woman is diabetic or not based on some of the medical information we have about that person. The dataset we are using in this section (refer <a href="#tbl-pima">Table&nbsp;<span>2.1</span></a>) is structurally similar to the food recipe example we had in the last section. Before getting into the nitty gritty details of model implementation, let’s learn more about Logistic Regression.</p>
+<section id="logistic-regression" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">2.2.1</span> Logistic Regression</h3>
+<p>In <a href="#sec-ml">Section&nbsp;<span>2.1</span></a>, we learned that a model is nothing but a mathematical representation of the relationship between the features (aka predictors) and the target. In the diabetes dataset, our target is the variable that predicts if a person is diabetic or not, and all other variables are considered features. We can represent this information in a general form as:</p>
+<p>Probability of being diabetic (i.e <code>Type</code> == 1) =</p>
+<p><span class="math inline">\(f(\)</span><code>NPreg</code>, <code>Glu</code>,<code>BP</code>, <code>Skin</code>, <code>BMI</code>, <code>Ped</code>, <code>Age</code><span class="math inline">\() =\)</span> <span class="math display">\[f(\theta_1 \times \text{NPreg} +
+\theta_2 \times \text{Glu} +
+\theta_3 \times \text{BP} +
+\theta_4 \times \text{Skin} +
+\]</span> <span class="math display">\[
+\theta_5 \times \text{BMI} +
+\theta_6 \times \text{Ped} +
+\theta_7 \times \text{Age}) \tag{1}\]</span></p>
+<p>If we give a logistic parametric form to our function <span class="math inline">\(f(.)\)</span>, then it’s called the logistic regression model. A logistic function is defined as <span class="math display">\[f(x) = \frac{1}{1 + e^{-x}} \tag{2}\]</span></p>
+<p>Using equation <span class="math inline">\((2)\)</span> on <span class="math inline">\((1)\)</span> we get,</p>
+<p>Probability of being diabetic = <span class="math display">\[\frac{1}{1 + e^{- (\theta_1 \times \text{NPreg} +
+\theta_2 \times \text{Glu} +
+\theta_3 \times \text{BP} +
+\theta_4 \times \text{Skin} +
+\theta_5 \times \text{BMI} +
+\theta_6 \times \text{Ped} +
+\theta_7 \times \text{Age})}} \tag{3}\]</span></p>
+<p>Applying different parametric forms to equation (1) yields you different machine learning models. For e.g., if we had used an identity function i.e.&nbsp;<span class="math inline">\(f(x) = x\)</span>, the model we got is called the linear regression model (<em>Note:</em> Linear Regression models are not used for classification problems. The type of the problem you are trying to solve always restricts the type of models you can use.).</p>
+<p>By using an activation function where the function will return <code>Yes</code> if the value we get using equation (3) is greater than or equal to 0.50 and return <code>No</code> otherwise, we can get prediction from our model that is comparable to the target in our data. The discrepancy between our model’s prediction and target is called the <strong><em>prediction error</em></strong>.</p>
+<p>Once we have a model defined and the data available, the next step is to use an algorithm to learn optimal values for <span class="math inline">\(\theta\)</span>’s so that I can predict values of the target consistently. The step where we use an algorithm to learn optimal values for <span class="math inline">\(\theta\)</span>’s is called <strong><em>model training</em></strong> and the data we used for training is called the <strong><em>training dataset</em></strong> in machine learning.</p>
+</section>
+<section id="sec-optimization" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="sec-optimization"><span class="header-section-number">2.2.2</span> How do Models learn?</h3>
+<p>Optimization algorithms are what make model training (learning) possible. In this section, let’s learn how they work from a birds-eye-view, as explaining the technicalities of how optimization algorithms work is beyond the scope of this textbook.</p>
+<div id="fig:logistic_reg" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/logisticregression.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Schematic to understand the concept of model training.</figcaption><p></p>
+</figure>
+</div>
+<p>An optimization algorithm learns pretty much the same way you learn things - through trail and error. With each trial, the goal of the optimization algorithm is to keep reducing the value of prediction error by manipulating the values for the model parameters (<span class="math inline">\(\theta\)</span>s). After several trials, we get to a point where the prediction error is in an acceptable range and reducing prediction error further is impossible or futile. At that point, we save the values of <span class="math inline">\(\theta\)</span> that helped us to reach that particular prediction error value. These saved values for <span class="math inline">\(\theta\)</span> are called the <strong><em>coefficients</em></strong> of our learned model and corresponds to the patterns that were present in our data. Using the learned coefficients of our model, we will be able to make predictions on data the model has never seen. The data that the model hasn’t seen is called the <strong><em>test dataset</em></strong> and the prediction error we get on the test data is called the <strong><em>test error</em></strong> and the prediction error we were getting during training phase is called <strong><em>training error</em></strong>.</p>
+<p>Now let’s learn how to implement a logistic regression model and train them on the data we have</p>
+</section>
+<section id="step-1-project-environment-activation-and-package-installation" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-1-project-environment-activation-and-package-installation">Step 1: Project environment activation and Package Installation</h3>
+<p><strong><em>Note:</em></strong> We expect that you have created a separate folder for storing all the julia scripts you’ll be developing as part of learning with this textbook. To open your project folder in VS Code, you can go to Menu –&gt; File –&gt; Open Folder. From the dialog box that pops up, you can choose the folder you created.</p>
+<p>In order to make sure that you are always working in the correct project environment, have the following 2 lines of code towards beginning of every julia script you create:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Instructions on how to create a new julia script is described in <a href="hellojulia.html#sec-julia-files">Section&nbsp;<span>1.2.3</span></a> and <a href="hellojulia.html#sec-julia-script">Section&nbsp;<span>1.2.4</span></a></li>
+</ul>
+<p>In this section we will require 3 packages (To learn how to install a package, refer <a href="hellojulia.html#sec-install-package">Section&nbsp;<span>1.2.2</span></a>):</p>
+<ul>
+<li><code>RDatasets</code>: This package provides an easy access to a lot of toy datasets in machine learning.</li>
+<li><code>ScikitLearn</code>: One of the industry standard packages for doing machine learning projects. Provides utilities for model definition, training, testing, tuning, and much more.</li>
+<li><code>DataFrames</code>: A package for handling data in tabular form.</li>
+</ul>
+</section>
+<section id="step-2-loading-the-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-2-loading-the-packages">Step 2: Loading the packages</h3>
+<p>To load these packages, you can have the following line of code right below the code you wrote in step 1:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ScikitLearn</span>, <span class="bu">RDatasets</span>, <span class="bu">DataFrames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>If you got an error while running the above line of code, most of the time it means one of the three things:
+<ol type="1">
+<li>You haven’t installed the package that you are trying to load.</li>
+<li>You are in the wrong project environment. (This is why we highly recommend you to follow step 1 every time you create a new julia script.)</li>
+<li>You have typed a wrong package name. The name of all packages in Julia are case sensitive.</li>
+</ol></li>
+</ul>
+</section>
+<section id="step-3-loading-the-dataset" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-3-loading-the-dataset">Step 3: Loading the dataset</h3>
+<p>In this example, we will use the <em>Diabetes in Pima Indian Women dataset</em> (available via <code>RDatasets</code>). (Instruction on how to load a dataset that is available to you are a <code>.CSV</code> file is provided in the Appendix (<span class="quarto-unresolved-ref">?sec-appendix</span>)). To load the dataset and show the first four observations, enter the following lines of code:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="op">=</span> <span class="fu">dataset</span>(<span class="st">"MASS"</span>, <span class="st">"Pima.te"</span>);</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(diabetes,<span class="fl">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="222">
+<div id="tbl-pima" class="anchored">
+<div class="data-frame"><p>4 rows × 8 columns</p><table class="data-frame table table-sm table-striped"><caption>Table 2.1:  Diabetes in Pima Indian Women dataset </caption><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th><th>Type</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th><th title="CategoricalArrays.CategoricalValue{String, UInt8}">Cat…</th></tr></thead><tbody><tr><th>1</th><td>6</td><td>148</td><td>72</td><td>35</td><td>33.6</td><td>0.627</td><td>50</td><td>Yes</td></tr><tr><th>2</th><td>1</td><td>85</td><td>66</td><td>29</td><td>26.6</td><td>0.351</td><td>31</td><td>No</td></tr><tr><th>3</th><td>1</td><td>89</td><td>66</td><td>23</td><td>28.1</td><td>0.167</td><td>21</td><td>No</td></tr><tr><th>4</th><td>3</td><td>78</td><td>50</td><td>32</td><td>31.0</td><td>0.248</td><td>26</td><td>Yes</td></tr></tbody></table></div>
+</div>
+</div>
+</div>
+<ul>
+<li><code>dataset</code> is a function from <code>RDatasets</code> that provide a nice interface to load datasets in DataFrames format. The <code>dataset</code> function accepts two arguments: the data source, and the dataset name. In this case, the name of our dataset was <code>Pima.te</code> and the source was <code>MASS</code> package in R.
+<ul>
+<li><strong>Trivia:</strong> If you see a word with <code>()</code> ending, then it is a function. A function is a collection of commands (several lines of codes) sharing a collective single objective. Anything that is passed inside <code>()</code> are called arguments. In our example, the objective of <code>dataset</code> function was to return the dataset (<code>Pima.te</code>) from the source (<code>MASS</code>) we mentioned.</li>
+</ul></li>
+<li><code>diabetes</code> is the name we gave to the variable that stores the data that was returned from the <code>dataset</code> function. The variable name is arbitrary and you can give whatever name you like. However, it is always recommended to give meaningful names.</li>
+</ul>
+</section>
+<section id="step-4-making-sense-of-the-dataset" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-4-making-sense-of-the-dataset">Step 4: Making sense of the dataset</h3>
+<p>The diabetes dataset that we are using in this section was collected by the US National Institute of Diabetes, Digestive, and Kidney Diseases from a population of women who were 21 years and older and were of Pima Indian heritage living near Phoenix, Arizona. The dataset contains the following information:</p>
+<ul>
+<li><code>NPreg</code>: Number of pregnancies</li>
+<li><code>Glu</code>: Plasma glucose concentration in an oral glucose tolerance test</li>
+<li><code>BP</code>: Diastolic blood pressure (mm Hg)</li>
+<li><code>Skin</code>: Triceps skin fold thickness (mm)</li>
+<li><code>BMI</code>: Body Mass Index (<span class="math inline">\(\frac{\text{weight (Kg)}}{\text{height (m)}^2}\)</span>)</li>
+<li><code>Ped</code>: Diabetic pedigree function</li>
+<li><code>Age</code>: age in years</li>
+<li><code>Type</code>: Diabetic or not (according to WHO criteria)</li>
+</ul>
+</section>
+<section id="accessing-elements-in-the-data" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="accessing-elements-in-the-data">Accessing elements in the data</h3>
+<p>Now let’s take a small detour and learn how to access different cells and slice the data.</p>
+<ul>
+<li><p>To access the <span class="math inline">\(10^\text{th}\)</span> row in the data:</p>
+<div class="cell" data-tbl-caption="Tenth row in the data" data-execution_count="5">
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">10</span>,<span class="op">:</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tenth_row" class="cell-output-display" data-execution_count="223">
+<p>DataFrameRow (8 columns)</p><div class="data-frame"><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th><th>Type</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th><th title="CategoricalArrays.CategoricalValue{String, UInt8}">Cat…</th></tr></thead><tbody><tr><th>10</th><td>9</td><td>119</td><td>80</td><td>35</td><td>29.0</td><td>0.263</td><td>29</td><td>Yes</td></tr></tbody></table></div>
+</div>
+</div>
+<ul>
+<li>The first position in <code>[]</code> indicated the row, and the second position indicated column. If you want to choose all columns then you put <code>:</code> in the second position.</li>
+</ul></li>
+<li><p>To access the column <code>BMI</code>:</p></li>
+</ul>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,<span class="op">:</span>BMI]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="224">
+<pre><code>5-element Vector{Float64}:
+ 30.5
+ 25.8
+ 45.8
+ 43.3
+ 39.3</code></pre>
+</div>
+</div>
+<ul>
+<li><p>If you want to choose all rows, then you put <code>!</code> in the first position instead of <code>5:9</code>.</p></li>
+<li><p>To select multiple columns:</p></li>
+</ul>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">10</span>,[<span class="op">:</span>BMI,<span class="op">:</span>Age]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="225">
+<div class="data-frame"><p>6 rows × 2 columns</p><table class="data-frame table table-sm table-striped"><caption>Accessing multiple columns (for rows from 5:10)</caption><thead><tr><th></th><th>BMI</th><th>Age</th></tr><tr><th></th><th title="Float64">Float64</th><th title="Int32">Int32</th></tr></thead><tbody><tr><th>1</th><td>30.5</td><td>53</td></tr><tr><th>2</th><td>25.8</td><td>51</td></tr><tr><th>3</th><td>45.8</td><td>31</td></tr><tr><th>4</th><td>43.3</td><td>33</td></tr><tr><th>5</th><td>39.3</td><td>27</td></tr><tr><th>6</th><td>29.0</td><td>29</td></tr></tbody></table></div>
+</div>
+</div>
+<ul>
+<li>To select all columns except <code>Type</code>:</li>
+</ul>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">10</span>,<span class="fu">Not</span>(<span class="op">:</span><span class="dt">Type</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="226">
+<div class="data-frame"><p>6 rows × 7 columns</p><table class="data-frame table table-sm table-striped"><caption>All columns except Type (for rows from 5:10)</caption><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th></tr></thead><tbody><tr><th>1</th><td>2</td><td>197</td><td>70</td><td>45</td><td>30.5</td><td>0.158</td><td>53</td></tr><tr><th>2</th><td>5</td><td>166</td><td>72</td><td>19</td><td>25.8</td><td>0.587</td><td>51</td></tr><tr><th>3</th><td>0</td><td>118</td><td>84</td><td>47</td><td>45.8</td><td>0.551</td><td>31</td></tr><tr><th>4</th><td>1</td><td>103</td><td>30</td><td>38</td><td>43.3</td><td>0.183</td><td>33</td></tr><tr><th>5</th><td>3</td><td>126</td><td>88</td><td>41</td><td>39.3</td><td>0.704</td><td>27</td></tr><tr><th>6</th><td>9</td><td>119</td><td>80</td><td>35</td><td>29.0</td><td>0.263</td><td>29</td></tr></tbody></table></div>
+</div>
+</div>
+</section>
+<section id="step-5-choosing-the-features-and-the-target" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-5-choosing-the-features-and-the-target">Step 5: Choosing the features and the target</h3>
+<p>Our goal in this chapter is to define a supervised machine learning model that can predict if a woman is diabetic or not given their pregnancy history, glucose level, blood pressure, skin fold thickness, BMI, diabetic pedigree function, and their age.</p>
+<p>If the value we have to predict is a category, that’s called a <strong><em>classification problem </em></strong> and if the value we had to predict was numeric, it’s called a <strong><em>regression problem</em></strong>. Both the examples (food recipe and diabetes) we discussed in this chapter are classification problems. In the food recipe example the categories of the target were: <code>Non-Edible</code>, <code>Edible</code>, <code>Average</code>, and <code>Best</code>. For the diabetes dataset, the categories of the target are <code>Yes</code> and <code>No</code> indicating if a woman is diabetic or not.</p>
+<p>We can use the data slicing skills we learned in the previous section to extract the features and the target from the data:</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> <span class="fu">Array</span>(diabetes[!, <span class="fu">Not</span>(<span class="op">:</span><span class="dt">Type</span>)]);</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="fu">Array</span>(diabetes[!, <span class="op">:</span><span class="dt">Type</span>]);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The first line selects all columns except the <code>Type</code> column and saves them as an Array in the variable <code>features</code></li>
+<li>The second line selects just the <code>Type</code> column and saves them as an Array in the variable <code>target</code></li>
+</ul>
+</section>
+<section id="step-6-creating-a-model-instance" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-6-creating-a-model-instance">Step 6: Creating a Model Instance</h3>
+<p>Logistic regression model is one of the most simple, common, and baseline model we use for classification problems. To create a logistic regression model instance, we can import the Logistic Regression function from <code>linear_models</code> in <code>ScikitLearn</code> package.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> linear_model<span class="op">:</span> LogisticRegression;</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>simplelogistic <span class="op">=</span> <span class="fu">LogisticRegression</span>();</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The line <code>simplelogistic=LogisticRegression()</code> creates an empty logistic regression model object which can store information about the model, data, learning algorithm, and learned parameters. The fields that are stored in a model object varies depending on the model you are defining.</li>
+<li>the variable name <code>simplelogistic</code> is arbitrary and you can give whatever name you like.</li>
+<li>If you are going to create another model instance (say a neural network model), don’t reuse the variable name. It’s better to choose a different variable name each time you are defining a new model.</li>
+</ul>
+</section>
+<section id="step-7-training-your-model" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-7-training-your-model">Step 7: Training your model</h3>
+<p>In <a href="#sec-optimization">Section&nbsp;<span>2.2.2</span></a>, you learned how an optimization algorithm helps the model to learn patterns in the data. The <code>fit!</code> function from <code>ScikitLearn</code> implements that procedure.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(simplelogistic, features, target);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>the <code>fit!</code> function takes three arguments: the model you want to train, the features, and the target.
+<ul>
+<li>Whenever you see an exclamation mark in functions, it means that the function is mutating (changing) the values of one or more arguments passed to that function. In this case <code>fit!</code> function is changing the values of <span class="math inline">\(\theta\)</span>, which is part of the model definition.</li>
+</ul></li>
+</ul>
+<p>Now you have a logistic regression model (<code>simplelogistic</code>) that’s trained on Pima diabetes dataset. To see the learned values for <span class="math inline">\(\theta\)</span>, you can run the following line of code:</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>simplelogistic.coef_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="230">
+<pre><code>1×7 Matrix{Float64}:
+ 0.138633  0.0373939  -0.00897535  0.0134173  0.0783658  0.921752  0.0190434</code></pre>
+</div>
+</div>
+<p>You can plug in these values into equation (3) to reliably compute the probability of a woman being diabetic.</p>
+</section>
+<section id="code-summary-for-chapter-2" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="code-summary-for-chapter-2">Code Summary for Chapter 2</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activating the local project environment </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the packages </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ScikitLearn</span>, <span class="bu">RDatasets</span>, <span class="bu">DataFrames</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the dataset</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>diabetes <span class="op">=</span> <span class="fu">dataset</span>(<span class="st">"MASS"</span>, <span class="st">"Pima.te"</span>);</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(diabetes,<span class="fl">4</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Choosing the features and target</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> <span class="fu">Array</span>(diabetes[!, <span class="fu">Not</span>(<span class="op">:</span><span class="dt">Type</span>)])</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="fu">Array</span>(diabetes[!, <span class="op">:</span><span class="dt">Type</span>])</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a logistic regression model instance </span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> linear_model<span class="op">:</span> LogisticRegression</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>simplelogistic <span class="op">=</span> <span class="fu">LogisticRegression</span>()</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the model </span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(simplelogistic, features, target)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Viewing the learned parameters </span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>simplelogistic.coef_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the next chapter, we will learn how to check if our trained model is a good one or not.</p>
+
+
+
+</section>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./hellojulia.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./evaluation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Evaluating Your Model’s Performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

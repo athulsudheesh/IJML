@@ -1,0 +1,5 @@
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
+ScikitLearn = "3646fa90-6ef7-5e7e-9f22-8aca16db6324"
