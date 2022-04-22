@@ -1,0 +1,102 @@
+# Generalizability
+
+:::{.callout-caution icon="false"}
+# In this chapter you'll learn:
+1. What is generalizability.
+2. How to ensure generaziability of your model.
+3. What you mean by learning curve, under-fitting, over-fitting, bias and variance. 
+4. How to implement cross-validation techniques using `ScikitLearn`. 
+
+:::
+
+## Did our model cheat?
+
+In the last chapter, we learned how to check our model's performance using various metrics. But how do we know that our model really learned the patterns in the data and is not cheating by rote-memorizing the data? Think about how we would have assessed a human learner in this situation.
+
+
+When we want to know if students have really learned what we have asked them to learn, we test students on material that is similar to the material that's familiar to them but not exactly the questions they have seen before. Similarly, to check if our models have really learned the patterns in the data, we can test our model against a similar but unseen data. The extent to which the model performance remains invariant with this new unseen data is called that model's ***generalizability***.
+
+The portion of the data we use for training is called the ***training set*** and the portion of the data we use to test is called the ***test set***. We can use the `train_test_split` function from `model_selection` module in `scikit-learn` to create this partition.
+
+
+
+```{julia}
+#| echo: false
+#| warning: false
+# output: false 
+# Activating the local project environment 
+using Pkg;
+Pkg.activate(".");
+
+# Loading the packages 
+using ScikitLearn, RDatasets, DataFrames;
+
+# Loading the dataset
+diabetes = dataset("MASS", "Pima.te");
+first(diabetes,4);
+
+# Choosing the features and target
+features = Array(diabetes[!, Not(:Type)]);
+target = Array(diabetes[!, :Type]);
+```
+
+```{julia}
+#| warning: false 
+@sk_import model_selection: train_test_split;
+features_train, features_test, 
+    target_train, target_test = train_test_split(features, 
+        target, test_size=0.3, random_state=42);
+```
+- The `train_test_split` function has three important and mandatory arguments. 
+- The first two are the `features` and the `target`
+- The third argument is `test_size` and specifies the proportion of the data that needs to kept aside for testing. In the above code, we have asked to keep aside 30% of the data as test set.  
+- `random_state` is an optional argument and set's the seed for randomness.
+Now, instead of training the model on the entire dataset, we'll train our model with training set. 
+
+
+```{julia}
+#| warning: false
+@sk_import linear_model: LogisticRegression;
+simplelogistic = LogisticRegression();
+
+fit!(simplelogistic, features_train, target_train);
+```
+
+Now let's look at our model's performance with both training set and test set. 
+
+### In-sample performance {.unnumbered}
+
+A model's performance with training set is also called it's in-sample performance. 
+```{julia}
+#| warning: false
+logistic_target_predict_training = 
+    predict(simplelogistic,features_train);
+
+@sk_import metrics: classification_report
+print(classification_report(target_train,
+                     logistic_target_predict_training))
+```
+
+### Out-of-sample performance {.unnumbered}
+A model's performance with test set is also called it's out-of-sample performance. 
+```{julia}
+#| warning: false 
+logistic_target_predict_test = 
+    predict(simplelogistic,features_test);
+
+@sk_import metrics: classification_report
+print(classification_report(target_test,
+                     logistic_target_predict_test))
+```
+
+By comparing our model's performance with both the training set and test set, we can see that the overall accuracy of our model slightly dropped for the test case. We can also see that our model had better precision but a little worse recall and f1-score with the test performance compared to training performance. So, we can conclude that our model has an ok-ish generalizability. 
+
+## Cross-validation: A robust measure of generalizability
+We can extend the concepts of in-sample and out-of sample performance to create a more robust measure of generalizability. There are two motivations for creating this new robust measure of generalizability: 
+
+1. When the sample size is small (less data), our training and test performance scores can get flaky and unreliable. 
+2. There are some bells and whistles (which are called hyperparameters) that we can tweak in our models to improve our models' performance (This is explained in detail in the coming chapters). If we tweak these hyperparameters with respect to our training data, we might be overfitting our data to the training set (***Overfitting*** happens when our model have high performance on training set but very poor performance on test set.). But instead, if we tweak these hyperparameters with respect to our test data, information in the test data leaks to the model and the data is no more unseen data for the model.    
+
+ML developers came up with a solution to this problem by partitioning the training data into different data blocks, holding out one block as test set, and training on the remaining blocks. Then model's performance on the hold-out test set is saved. This process is repeated until all blocks had its chance of beginning the hold-out test set. Model performance from all these iterations is then averaged to get the robust generalization performance. This process of deriving model performance is called the ***cross-validation*** technique and is illustrated in @fig-cross-val. 
+
+![Five-fold cross validation](images/cross_val.png){#fig-cross-val} 

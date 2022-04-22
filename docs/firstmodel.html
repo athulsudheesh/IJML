@@ -174,7 +174,12 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./generalizability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalizability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -239,8 +244,8 @@ In this chapter you’ll learn:
 <p>Machine Learning is a sub-field of statistics and optimization where your goal is to design, develop, and analyze algorithms that can learn patterns in the data. Algorithms can be thought of as procedures you need to follow to achieve a goal. Some examples of instances in your life where you use an algorithm include recipes for food, instructions for the direction to a place, strategies for solving a math problem, etc. (Computer algorithms are definitely different from the above examples, but I hope you got the general gist of what an algorithm means) Let’s take the example of food recipes to understand some concepts in machine learning further.</p>
 <p>Everyone who has learned to cook by themselves knows that the meal isn’t guaranteed to taste that well the first time they try a new recipe. But with multiple attempts, you learn to adjust the spiciness, sourness, sweetness, gravy level, etc., to the right proportion that you will be successful in preparing an outstanding meal. If they were to record each of their attempts in a table, it would have looked something like this:</p>
 <div class="cell" data-execution_count="1">
-<div id="reiepe_data" class="cell-output-display" data-execution_count="220">
-<div class="data-frame"><p>10 rows × 7 columns</p><table class="data-frame table table-sm table-striped"><caption>Food ingredients and their proportions.</caption><thead><tr><th></th><th>Chilly_Powder</th><th>Sugar</th><th>Salt</th><th>Pepper</th><th>Broth_Oz</th><th>Serves</th><th>Tastes</th></tr><tr><th></th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>2.0</td><td>1</td><td>2.0</td><td>3</td><td>4.0</td><td>2</td><td>Best</td></tr><tr><th>2</th><td>1.0</td><td>2</td><td>2.0</td><td>4</td><td>6.5</td><td>2</td><td>Edible</td></tr><tr><th>3</th><td>2.5</td><td>0</td><td>3.0</td><td>4</td><td>4.0</td><td>3</td><td>Edible</td></tr><tr><th>4</th><td>1.5</td><td>3</td><td>1.0</td><td>4</td><td>9.0</td><td>4</td><td>Edible</td></tr><tr><th>5</th><td>1.0</td><td>5</td><td>1.5</td><td>1</td><td>8.5</td><td>2</td><td>Non-Edible</td></tr><tr><th>6</th><td>3.0</td><td>5</td><td>3.0</td><td>2</td><td>6.5</td><td>3</td><td>Non-Edible</td></tr><tr><th>7</th><td>2.0</td><td>0</td><td>3.0</td><td>2</td><td>8.5</td><td>1</td><td>Non-Edible</td></tr><tr><th>8</th><td>2.0</td><td>1</td><td>2.0</td><td>4</td><td>11.5</td><td>3</td><td>Non-Edible</td></tr><tr><th>9</th><td>1.0</td><td>5</td><td>0.0</td><td>1</td><td>4.5</td><td>3</td><td>Best</td></tr><tr><th>10</th><td>1.5</td><td>3</td><td>2.5</td><td>4</td><td>5.5</td><td>3</td><td>Edible</td></tr></tbody></table></div>
+<div id="reiepe_data" class="cell-output-display" data-execution_count="2">
+<div class="data-frame"><p>10 rows × 7 columns</p><table class="data-frame table table-sm table-striped"><caption>Food ingredients and their proportions.</caption><thead><tr><th></th><th>Chilly_Powder</th><th>Sugar</th><th>Salt</th><th>Pepper</th><th>Broth_Oz</th><th>Serves</th><th>Tastes</th></tr><tr><th></th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>3.0</td><td>4</td><td>1.5</td><td>2</td><td>7.0</td><td>3</td><td>Edible</td></tr><tr><th>2</th><td>1.5</td><td>4</td><td>3.0</td><td>2</td><td>6.5</td><td>1</td><td>Edible</td></tr><tr><th>3</th><td>3.0</td><td>5</td><td>1.5</td><td>3</td><td>10.0</td><td>2</td><td>Best</td></tr><tr><th>4</th><td>1.0</td><td>1</td><td>2.0</td><td>2</td><td>6.5</td><td>2</td><td>Non-Edible</td></tr><tr><th>5</th><td>1.0</td><td>5</td><td>2.5</td><td>4</td><td>8.5</td><td>4</td><td>Best</td></tr><tr><th>6</th><td>2.0</td><td>4</td><td>3.0</td><td>4</td><td>10.5</td><td>4</td><td>Edible</td></tr><tr><th>7</th><td>2.5</td><td>0</td><td>3.0</td><td>0</td><td>5.0</td><td>5</td><td>Average</td></tr><tr><th>8</th><td>2.5</td><td>1</td><td>2.5</td><td>0</td><td>4.0</td><td>1</td><td>Average</td></tr><tr><th>9</th><td>2.5</td><td>4</td><td>1.5</td><td>2</td><td>9.5</td><td>1</td><td>Non-Edible</td></tr><tr><th>10</th><td>3.0</td><td>5</td><td>1.0</td><td>2</td><td>5.0</td><td>2</td><td>Non-Edible</td></tr></tbody></table></div>
 </div>
 </div>
 <p><em>Note: Values in the above table were randomly generated.</em></p>
@@ -293,7 +298,7 @@ In this chapter you’ll learn:
 <p>Optimization algorithms are what make model training (learning) possible. In this section, let’s learn how they work from a birds-eye-view, as explaining the technicalities of how optimization algorithms work is beyond the scope of this textbook.</p>
 <div id="fig:logistic_reg" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="images/logisticregression.jpg" class="img-fluid figure-img"></p>
+<p><img src="images/logisticregression.jpg" class="img-fluid figure-img" data-fig.pos="h"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Schematic to understand the concept of model training.</figcaption><p></p>
 </figure>
 </div>
@@ -339,7 +344,7 @@ In this chapter you’ll learn:
 <div class="cell" data-execution_count="4">
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="op">=</span> <span class="fu">dataset</span>(<span class="st">"MASS"</span>, <span class="st">"Pima.te"</span>);</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(diabetes,<span class="fl">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="222">
+<div class="cell-output-display" data-execution_count="4">
 <div id="tbl-pima" class="anchored">
 <div class="data-frame"><p>4 rows × 8 columns</p><table class="data-frame table table-sm table-striped"><caption>Table 2.1:  Diabetes in Pima Indian Women dataset </caption><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th><th>Type</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th><th title="CategoricalArrays.CategoricalValue{String, UInt8}">Cat…</th></tr></thead><tbody><tr><th>1</th><td>6</td><td>148</td><td>72</td><td>35</td><td>33.6</td><td>0.627</td><td>50</td><td>Yes</td></tr><tr><th>2</th><td>1</td><td>85</td><td>66</td><td>29</td><td>26.6</td><td>0.351</td><td>31</td><td>No</td></tr><tr><th>3</th><td>1</td><td>89</td><td>66</td><td>23</td><td>28.1</td><td>0.167</td><td>21</td><td>No</td></tr><tr><th>4</th><td>3</td><td>78</td><td>50</td><td>32</td><td>31.0</td><td>0.248</td><td>26</td><td>Yes</td></tr></tbody></table></div>
 </div>
@@ -374,7 +379,7 @@ In this chapter you’ll learn:
 <li><p>To access the <span class="math inline">\(10^\text{th}\)</span> row in the data:</p>
 <div class="cell" data-tbl-caption="Tenth row in the data" data-execution_count="5">
 <div class="sourceCode" id="cb4"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">10</span>,<span class="op">:</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tenth_row" class="cell-output-display" data-execution_count="223">
+<div id="tenth_row" class="cell-output-display" data-execution_count="5">
 <p>DataFrameRow (8 columns)</p><div class="data-frame"><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th><th>Type</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th><th title="CategoricalArrays.CategoricalValue{String, UInt8}">Cat…</th></tr></thead><tbody><tr><th>10</th><td>9</td><td>119</td><td>80</td><td>35</td><td>29.0</td><td>0.263</td><td>29</td><td>Yes</td></tr></tbody></table></div>
 </div>
 </div>
@@ -385,7 +390,7 @@ In this chapter you’ll learn:
 </ul>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode" id="cb5"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">9</span>,<span class="op">:</span>BMI]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="224">
+<div class="cell-output-display" data-execution_count="6">
 <pre><code>5-element Vector{Float64}:
  30.5
  25.8
@@ -400,7 +405,7 @@ In this chapter you’ll learn:
 </ul>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode" id="cb7"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">10</span>,[<span class="op">:</span>BMI,<span class="op">:</span>Age]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="225">
+<div class="cell-output-display" data-execution_count="7">
 <div class="data-frame"><p>6 rows × 2 columns</p><table class="data-frame table table-sm table-striped"><caption>Accessing multiple columns (for rows from 5:10)</caption><thead><tr><th></th><th>BMI</th><th>Age</th></tr><tr><th></th><th title="Float64">Float64</th><th title="Int32">Int32</th></tr></thead><tbody><tr><th>1</th><td>30.5</td><td>53</td></tr><tr><th>2</th><td>25.8</td><td>51</td></tr><tr><th>3</th><td>45.8</td><td>31</td></tr><tr><th>4</th><td>43.3</td><td>33</td></tr><tr><th>5</th><td>39.3</td><td>27</td></tr><tr><th>6</th><td>29.0</td><td>29</td></tr></tbody></table></div>
 </div>
 </div>
@@ -409,7 +414,7 @@ In this chapter you’ll learn:
 </ul>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode" id="cb8"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diabetes[<span class="fl">5</span><span class="op">:</span><span class="fl">10</span>,<span class="fu">Not</span>(<span class="op">:</span><span class="dt">Type</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="226">
+<div class="cell-output-display" data-execution_count="8">
 <div class="data-frame"><p>6 rows × 7 columns</p><table class="data-frame table table-sm table-striped"><caption>All columns except Type (for rows from 5:10)</caption><thead><tr><th></th><th>NPreg</th><th>Glu</th><th>BP</th><th>Skin</th><th>BMI</th><th>Ped</th><th>Age</th></tr><tr><th></th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Int32">Int32</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int32">Int32</th></tr></thead><tbody><tr><th>1</th><td>2</td><td>197</td><td>70</td><td>45</td><td>30.5</td><td>0.158</td><td>53</td></tr><tr><th>2</th><td>5</td><td>166</td><td>72</td><td>19</td><td>25.8</td><td>0.587</td><td>51</td></tr><tr><th>3</th><td>0</td><td>118</td><td>84</td><td>47</td><td>45.8</td><td>0.551</td><td>31</td></tr><tr><th>4</th><td>1</td><td>103</td><td>30</td><td>38</td><td>43.3</td><td>0.183</td><td>33</td></tr><tr><th>5</th><td>3</td><td>126</td><td>88</td><td>41</td><td>39.3</td><td>0.704</td><td>27</td></tr><tr><th>6</th><td>9</td><td>119</td><td>80</td><td>35</td><td>29.0</td><td>0.263</td><td>29</td></tr></tbody></table></div>
 </div>
 </div>
@@ -456,7 +461,7 @@ In this chapter you’ll learn:
 <p>Now you have a logistic regression model (<code>simplelogistic</code>) that’s trained on Pima diabetes dataset. To see the learned values for <span class="math inline">\(\theta\)</span>, you can run the following line of code:</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode" id="cb12"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>simplelogistic.coef_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="230">
+<div class="cell-output-display" data-execution_count="12">
 <pre><code>1×7 Matrix{Float64}:
  0.138633  0.0373939  -0.00897535  0.0134173  0.0783658  0.921752  0.0190434</code></pre>
 </div>
