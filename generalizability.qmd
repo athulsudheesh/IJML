@@ -100,3 +100,215 @@ We can extend the concepts of in-sample and out-of sample performance to create 
 ML developers came up with a solution to this problem by partitioning the training data into different data blocks, holding out one block as test set, and training on the remaining blocks. Then model's performance on the hold-out test set is saved. This process is repeated until all blocks had its chance of beginning the hold-out test set. Model performance from all these iterations is then averaged to get the robust generalization performance. This process of deriving model performance is called the ***cross-validation*** technique and is illustrated in @fig-cross-val. 
 
 ![Five-fold cross validation](images/cross_val.png){#fig-cross-val} 
+
+To implement the K-fold cross validation technique we can use the `KFold` function and `cross_validate` function `model_selection` module in `scikit-learn`.
+
+```{julia}
+#| warning: false
+@sk_import model_selection: KFold
+@sk_import model_selection: cross_validate
+
+cv_results = cross_validate(simplelogistic, 
+        features_train, target_train, 
+            cv=KFold(5),
+            return_estimator=true,
+            return_train_score=true, 
+            scoring=["accuracy",
+                 "recall_weighted", "precision_weighted"]);
+```
+
+To print the results from cross validation in a more human readable table form, we can use the following lines of code: 
+
+```{julia}
+#| warning: false 
+cv_df = DataFrame(cv_results)[!, 
+        Not([:estimator, :fit_time, :score_time])]
+
+rename!(cv_df, ["Test Accuracy",
+                "Test Precision",
+                "Test Recall",
+                "Train Accuracy",
+                "Train Precision",
+                "Train Recall"])
+```
+To compute the cross validated average model performance measures, we can print the mean of each column in the above table.
+
+```{julia}
+#| tbl-cap: "Cross validated average model performance measures"
+describe(cv_df)[!,[:variable, :mean]]
+```
+
+## Learning curves: Can more data improve model training?
+
+Now we know how to measure a model's generalization performance. But what if our models perform poorly in both training and test sets? The scenario where models fit poorly with training and test sets equally is called ***underfitting***. Underfitting usually happens due to one of the two reasons or both: a) our model is too simple for the task at hand, b) we don't have enough data to learn from. 
+
+Solving the first problem is relatively simple; we can train a more complex model on the given dataset. However, solving the second problem can get complicated. Gathering more data may not always be feasible and can be expensive. In such cases, before deciding on acquiring more data, we need to make sure more data will solve the problem of underfitting. 
+
+The way we figure out if more data can help with training is by training our model with data of different sizes (e.g., using 10%, 50%, and 100% of our data) and check how the model performance is varying as a function of the sample size. The plot that illustrates this relationship is called ***learning curves***.
+
+We can get our model's performance at different sample sizes using the `learning_curve` function from `model_selection` module in `scikit-learn`.
+```{julia}
+#| warning: false 
+@sk_import model_selection: learning_curve;
+lc_results = learning_curve(simplelogistic, 
+        features_train,target_train, 
+            train_sizes = [0.06, 0.1, 0.25, 0.5, 0.75, 1.0]);
+```
+- The values we pass to `train_sizes` argument specify the different sample sizes we want to try. In this case we are looking at 10%, 25%, 50%, 75% and 100% of the data.
+
+
+```{julia}
+#| eval: false
+train_sizes, train_scores, test_scores, = 
+    lc_results[1], lc_results[2], lc_results[3]
+
+using Statistics
+# Calculating the error bars 
+y_ax = vec(mean(test_scores, dims=2)) 
+y_err = vec(std(test_scores, dims=2))
+
+using PyPlot
+begin 
+    figure();
+    plot(train_sizes,
+        vec(mean(test_scores, dims=2)), label="Cross Val");
+
+    fill_between(train_sizes,
+        y_ax - y_err, y_ax + y_err,alpha=0.2);
+
+    plot(train_sizes,
+        vec(mean(train_scores, dims=2)), label="Training");
+    xlabel("Training Size"); 
+    ylabel("Score"); 
+    title("Learning Curve");
+    legend(loc=4);
+    gcf()
+end;
+```
+
+```{julia}
+#| echo: false
+#| fig-cap: "Learning Curve for simple logistic regression model on diabetes dataset"
+#| label: fig-learning-curve
+train_sizes, train_scores, test_scores, = 
+    lc_results[1], lc_results[2], lc_results[3]
+
+using Statistics
+y_ax = vec(mean(test_scores, dims=2)) 
+y_err = vec(std(test_scores, dims=2))
+
+using PyPlot
+begin 
+    figure();
+    plot(train_sizes,
+        vec(mean(test_scores, dims=2)), label="Cross Val");
+
+    fill_between(train_sizes,
+        y_ax - y_err, y_ax + y_err,alpha=0.2);
+
+    plot(train_sizes,
+        vec(mean(train_scores, dims=2)), label="Training");
+    xlabel("Training Size (% Data)"); 
+    ylabel("Score"); 
+    title("Learning Curve");
+    legend(loc=4);
+    ylim([0,1.09]); xlim([0,100])
+end;
+```
+
+From the above learning curve, we see that our model's accuracy isn't getting that much influenced by increasing the sample size. So, it will be futile to collect more data for our diabetes detection ML system.
+
+### Code Summary for Chapter 4 {.unnumbered}
+
+
+```{julia}
+#| eval: false
+
+# Creating the train-test split
+@sk_import model_selection: train_test_split;
+features_train, features_test, 
+    target_train, target_test = train_test_split(features, 
+        target, test_size=0.3, random_state=42);
+
+# Creating a logistic regression model instance
+@sk_import linear_model: LogisticRegression;
+simplelogistic = LogisticRegression();
+
+# Fitting the model on training data
+fit!(simplelogistic, features_train, target_train);
+
+# Generating the predictions for train data  
+logistic_target_predict_training = 
+    predict(simplelogistic,features_train);
+
+# Checking the in-sample performance 
+@sk_import metrics: classification_report
+print(classification_report(target_train,
+                     logistic_target_predict_training))
+
+# Generating the predictions for train data 
+logistic_target_predict_test = 
+    predict(simplelogistic,features_test);
+
+# Checking the out-of-sample performance
+@sk_import metrics: classification_report
+print(classification_report(target_test,
+
+# K-Fold Cross validation 
+@sk_import model_selection: KFold
+@sk_import model_selection: cross_validate
+
+cv_results = cross_validate(simplelogistic, 
+        features_train, target_train, 
+            cv=KFold(5),
+            return_estimator=true,
+            return_train_score=true, 
+            scoring=["accuracy",
+                 "recall_weighted", "precision_weighted"]);
+
+# Printing cross validated results in table form 
+cv_df = DataFrame(cv_results)[!, 
+        Not([:estimator, :fit_time, :score_time])]
+
+rename!(cv_df, ["Test Accuracy",
+                "Test Precision",
+                "Test Recall",
+                "Train Accuracy",
+                "Train Precision",
+                "Train Recall"])
+# Cross validated means 
+describe(cv_df)[!,[:variable, :mean]]
+
+# Learning curves
+@sk_import model_selection: learning_curve;
+lc_results = learning_curve(simplelogistic, 
+        features_train,target_train, 
+            train_sizes = [0.06, 0.1, 0.25, 0.5, 0.75, 1.0]);
+
+# Plotting learning curves
+train_sizes, train_scores, test_scores, = 
+    lc_results[1], lc_results[2], lc_results[3]
+
+using Statistics
+# Calculating the error bars 
+y_ax = vec(mean(test_scores, dims=2)) 
+y_err = vec(std(test_scores, dims=2))
+
+using PyPlot
+begin 
+    figure();
+    plot(train_sizes,
+        vec(mean(test_scores, dims=2)), label="Cross Val");
+
+    fill_between(train_sizes,
+        y_ax - y_err, y_ax + y_err,alpha=0.2);
+
+    plot(train_sizes,
+        vec(mean(train_scores, dims=2)), label="Training");
+    xlabel("Training Size"); 
+    ylabel("Score"); 
+    title("Learning Curve");
+    legend(loc=4);
+    gcf()
+end;
+```
