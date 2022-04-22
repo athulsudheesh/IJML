@@ -278,7 +278,7 @@ Note
 <ul>
 <li>via hotkeys: Press <code>Ctrl + Shift +X</code> (for Windows) or <code>Cmd + Shift +X</code> (for Mac).</li>
 <li>via menu bar: From your VS Code top menu bar choose <code>View</code> –&gt; <code>Extensions</code></li>
-<li>via icons on the left of your VS Code application: Find and click on the icon with four squares, where one piece is detached from the rest (<a href="#fig-vscode-ext">Figure&nbsp;<span class="quarto-unresolved-ref">fig-vscode-ext</span></a>. a).</li>
+<li>via icons on the left of your VS Code application: Find and click on the icon with four squares, where one piece is detached from the rest (<a href="#fig-vscode-ext">Figure&nbsp;<span>1.1</span></a>. a).</li>
 </ul>
 <div id="fig-vscode-ext" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -286,7 +286,7 @@ Note
 <p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.1: <strong>Installing Julia extension</strong>. Figure (a) illustrates the two ways you can access the extension panel. Figure (b) illustrates how to search and find the Julia extension.</figcaption><p></p>
 </figure>
 </div>
-<p>This will open-up a panel towards the left side of your VS Code application; that’s your extensions panel. Towards the top of your extension panel you will see a search box where you have to search for <code>Julia</code>. In the results, you will see <code>Julia</code> listed as the top entry. Right next to it, you will also see the <code>Install</code> button. Click on it. (<a href="#fig-vscode-ext">Figure&nbsp;<span class="quarto-unresolved-ref">fig-vscode-ext</span></a>. b).</p>
+<p>This will open-up a panel towards the left side of your VS Code application; that’s your extensions panel. Towards the top of your extension panel you will see a search box where you have to search for <code>Julia</code>. In the results, you will see <code>Julia</code> listed as the top entry. Right next to it, you will also see the <code>Install</code> button. Click on it. (<a href="#fig-vscode-ext">Figure&nbsp;<span>1.1</span></a>. b).</p>
 </section>
 <section id="sec-extension-check" class="level3" data-number="1.1.4">
 <h3 data-number="1.1.4" class="anchored" data-anchor-id="sec-extension-check"><span class="header-section-number">1.1.4</span> Checking if the Julia Extension is configured properly</h3>
@@ -300,7 +300,7 @@ Note
 </section>
 <section id="sec-ext-config" class="level3" data-number="1.1.5">
 <h3 data-number="1.1.5" class="anchored" data-anchor-id="sec-ext-config"><span class="header-section-number">1.1.5</span> Fixing the Extension Configuration Manually</h3>
-<p>If you don’t get the <code>julia</code> prompt that means VS Code has failed to automatically configure the path to julia executable. To manually configure, follow these steps (<em>also refer to <a href="#fig-ext-fix">Figure&nbsp;<span class="quarto-unresolved-ref">fig-ext-fix</span></a></em>):</p>
+<p>If you don’t get the <code>julia</code> prompt that means VS Code has failed to automatically configure the path to julia executable. To manually configure, follow these steps (<em>also refer to <a href="#fig-ext-fix">Figure&nbsp;<span>1.2</span></a></em>):</p>
 <ul>
 <li>Open your VS Code extensions panel using any one of the methods mentioned above.</li>
 <li>Search for Julia. Now instead of seeing the install button next to <code>Julia</code> entry, you will see a gear. Click on it.</li>
@@ -308,24 +308,24 @@ Note
 <li>In the setting page, you should find a search box at the top. In the search box, type <code>julia executable</code></li>
 <li>Now you will see an empty field with the title “Julia: Executable Path”.
 <ul>
-<li>(Windows users): In this field, you need to enter/paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span class="quarto-unresolved-ref">sec-install-julia</span></a>). (Make sure the path ends with <code>\bin\julia.exe</code>).</li>
+<li>(Windows users): In this field, you need to enter/paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span>1.1.1</span></a>). (Make sure the path ends with <code>\bin\julia.exe</code>).</li>
 <li>(Mac users): Run julia from the applications launchpad (just the way you open any other application in Mac). Once the Julia application is open you will see a path within single quotes right before the Julia logo banner. Copy everything between those quotes (excluding the quotes) and paste them into the “Julia: Executable Path” field in VS Code Julia extension.<br>
 </li>
 </ul></li>
 <li>Close VS Code completely and open it again for the changes to reflect.</li>
-<li>Now repeat the steps mentioned in <a href="#sec-extension-check">Section&nbsp;<span class="quarto-unresolved-ref">sec-extension-check</span></a> to check if your configuration is working.</li>
+<li>Now repeat the steps mentioned in <a href="#sec-extension-check">Section&nbsp;<span>1.1.4</span></a> to check if your configuration is working.</li>
 </ul>
 <div id="fig-ext-fix" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="images/fix-julia-ext2.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.2: <strong>Configuring Julia extension manually.</strong> Paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span class="quarto-unresolved-ref">sec-install-julia</span></a>) in the textbox area highlighted.</figcaption><p></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.2: <strong>Configuring Julia extension manually.</strong> Paste the path you copied during step 1 (<a href="#sec-install-julia">Section&nbsp;<span>1.1.1</span></a>) in the textbox area highlighted.</figcaption><p></p>
 </figure>
 </div>
 </section>
 <section id="sec-julia-vscode-default" class="level3" data-number="1.1.6">
 <h3 data-number="1.1.6" class="anchored" data-anchor-id="sec-julia-vscode-default"><span class="header-section-number">1.1.6</span> Setting Julia as the default language in VS Code</h3>
 <ul>
-<li>Follow the instructions described in <a href="#sec-ext-config">Section&nbsp;<span class="quarto-unresolved-ref">sec-ext-config</span></a> (until step three) to access the extension settings.</li>
+<li>Follow the instructions described in <a href="#sec-ext-config">Section&nbsp;<span>1.1.5</span></a> (until step three) to access the extension settings.</li>
 <li>Clear all existing text in the search box of extension setting and search for <code>default language mode</code>.</li>
 <li>In the textbox for <em>Files: Default Language</em> that appear, type <code>julia</code> (make sure all are lowercase).</li>
 </ul>
@@ -333,14 +333,14 @@ Note
 </section>
 <section id="know-your-ide" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="know-your-ide"><span class="header-section-number">1.2</span> Know Your IDE</h2>
-<p>IDE stands for Integrated Development Environment and are software that combine developer tools into a unified user interface. The primary goal of an IDE is to increase the productivity of the developer by automating as many redundant configuration steps as possible. Modern IDEs like VS Code provide functionalities like syntax highlighting (highlights different component of language in different fonts and color), code completion (similar to word completion in MS Word), debugging (tools to debug your code when it is not behaving the way you wanted it to behave), code search (a local search engine for your project), file explorer, language terminal (for quick prototyping), and many more (<a href="#fig-vscode-home">Figure&nbsp;<span class="quarto-unresolved-ref">fig-vscode-home</span></a>).</p>
+<p>IDE stands for Integrated Development Environment and are software that combine developer tools into a unified user interface. The primary goal of an IDE is to increase the productivity of the developer by automating as many redundant configuration steps as possible. Modern IDEs like VS Code provide functionalities like syntax highlighting (highlights different component of language in different fonts and color), code completion (similar to word completion in MS Word), debugging (tools to debug your code when it is not behaving the way you wanted it to behave), code search (a local search engine for your project), file explorer, language terminal (for quick prototyping), and many more (<a href="#fig-vscode-home">Figure&nbsp;<span>1.3</span></a>).</p>
 <div id="fig-vscode-home" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="images/vscode-tour.png" class="img-fluid figure-img" data-fig.pos="h"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1.3: Julia VS Code IDE.</figcaption><p></p>
 </figure>
 </div>
-<p>VS Code, by default, is a simple code/text editor and it is the extensions (similar to the Julia extension you installed) that bring the complete IDE experience to VS Code users. <a href="#fig-vscode-home">Figure&nbsp;<span class="quarto-unresolved-ref">fig-vscode-home</span></a> provides a visual overview of the VS Code environment during a typical Julia workflow with an active project environment. To activate the Julia language environment inside VS Code:</p>
+<p>VS Code, by default, is a simple code/text editor and it is the extensions (similar to the Julia extension you installed) that bring the complete IDE experience to VS Code users. <a href="#fig-vscode-home">Figure&nbsp;<span>1.3</span></a> provides a visual overview of the VS Code environment during a typical Julia workflow with an active project environment. To activate the Julia language environment inside VS Code:</p>
 <ul>
 <li>Do <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (Mac). This opens the Command Palette with a search box.</li>
 <li>Type <code>Julia REPL</code> into the search box and hit enter.</li>
@@ -361,12 +361,12 @@ Note
 <p>Once you are in the package manager mode you can install a package using the command <code>add</code>. For e.g., to install the <code>StatsBase</code> package you’ll enter <code>add StatsBase</code> into your package manager mode and hit enter. Once the installation of the package is over, the prompt will return back to <code>(@v1.7) pkg</code>. To remove a package you use the <code>rm</code> command, and to update a package you use <code>update</code> command. Just like the <code>add</code> command, you also need to pass the name of the package in all these cases. You can use the <code>st</code> command to see the list of packages installed in your computer/project environment.</p>
 <section id="but-what-are-packages" class="level5" data-number="1.2.2.0.1">
 <h5 data-number="1.2.2.0.1" class="anchored" data-anchor-id="but-what-are-packages"><span class="header-section-number">1.2.2.0.1</span> But What are Packages?</h5>
-<p>A Julia package or a library is a collection of functions and sub-modules surrounding an idea or concept bundled as a single unit. Each function can be considered as a collection of code whose objective is to perform a specific task. The standard Julia installation comes with only a handful of very important packages to get you started. To extend the capabilities of julia, you install packages with the help of julia’s package manager (<a href="#sec-install-package">Section&nbsp;<span class="quarto-unresolved-ref">sec-install-package</span></a>).</p>
+<p>A Julia package or a library is a collection of functions and sub-modules surrounding an idea or concept bundled as a single unit. Each function can be considered as a collection of code whose objective is to perform a specific task. The standard Julia installation comes with only a handful of very important packages to get you started. To extend the capabilities of julia, you install packages with the help of julia’s package manager (<a href="#sec-install-package">Section&nbsp;<span>1.2.2</span></a>).</p>
 </section>
 </section>
 <section id="sec-julia-files" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="sec-julia-files"><span class="header-section-number">1.2.3</span> Julia Files</h3>
-<p>Although you can completely develop julia packages/programs/scripts within the julia REPL, an easier and faster workflow for developing code is by writing the commands in a file and running that file in the julia REPL. To open a new file, do <code>Cmd + N</code> (Mac) or <code>Ctrl +N</code> (Windows). You can also open a new file using the menu bar: Choose <code>File</code> –&gt; <code>New File</code>. If you have configured the default language for VS Code as julia (<a href="#sec-julia-vscode-default">Section&nbsp;<span class="quarto-unresolved-ref">sec-julia-vscode-default</span></a>), the newly opened file will be a julia file. It is important for VS Code to know the type of the file for syntax highlighting, auto code completion and for running the file in the appropriate language’s compiler. Once you have a file open in your VS Code, you can start writing your code line by line in that file.</p>
+<p>Although you can completely develop julia packages/programs/scripts within the julia REPL, an easier and faster workflow for developing code is by writing the commands in a file and running that file in the julia REPL. To open a new file, do <code>Cmd + N</code> (Mac) or <code>Ctrl +N</code> (Windows). You can also open a new file using the menu bar: Choose <code>File</code> –&gt; <code>New File</code>. If you have configured the default language for VS Code as julia (<a href="#sec-julia-vscode-default">Section&nbsp;<span>1.1.6</span></a>), the newly opened file will be a julia file. It is important for VS Code to know the type of the file for syntax highlighting, auto code completion and for running the file in the appropriate language’s compiler. Once you have a file open in your VS Code, you can start writing your code line by line in that file.</p>
 </section>
 <section id="sec-julia-script" class="level3" data-number="1.2.4">
 <h3 data-number="1.2.4" class="anchored" data-anchor-id="sec-julia-script"><span class="header-section-number">1.2.4</span> Running Your First Julia Script</h3>
@@ -395,7 +395,7 @@ Note
 </section>
 <section id="project-environments" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="project-environments"><span class="header-section-number">1.3</span> Project Environments</h2>
-<p>A good programming practice is to always have separate folders for each Julia project you are working on. However, just having separate folders isn’t going to ensure either reproducibility or an isolated workspace. (Reproducibility is the property of your project/code to behave exactly in the same way in a computer other than one in which it was developed.). To have an isolated workspace, on top of having a separate folder for your projects, you should also be having what’s called separate project environments (<a href="#fig-proj_env">Figure&nbsp;<span class="quarto-unresolved-ref">fig-proj_env</span></a>). Project environments are like isolated pockets of spaces where your interaction with one pocket doesn’t affect the state of another pocket.</p>
+<p>A good programming practice is to always have separate folders for each Julia project you are working on. However, just having separate folders isn’t going to ensure either reproducibility or an isolated workspace. (Reproducibility is the property of your project/code to behave exactly in the same way in a computer other than one in which it was developed.). To have an isolated workspace, on top of having a separate folder for your projects, you should also be having what’s called separate project environments (<a href="#fig-proj_env">Figure&nbsp;<span>1.4</span></a>). Project environments are like isolated pockets of spaces where your interaction with one pocket doesn’t affect the state of another pocket.</p>
 <div id="fig-proj_env" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="images/project_env.jpg" class="img-fluid figure-img" data-fig.pos="h" style="width:55.0%"></p>

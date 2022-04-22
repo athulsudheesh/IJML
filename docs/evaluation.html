@@ -267,7 +267,7 @@ In this chapter you’ll learn:
 <li>the model predicted the woman to be diabetic but was not actually diabetic</li>
 <li>the model predicted the woman to be non-diabetic and was not diabetic</li>
 </ul>
-<p>The first and last cases where our predictions aligned with the actual values are called <em>true positives</em> and <em>true negatives</em> respectively. The case where the model predicted the woman to be diabetic while she did not have diabetes is called a <em>false positive</em> case, and the case where the model predicted the woman to be non-diabetic but she was in fact diabetic is called the <em>false-negative</em> case. This is illustrated in <a href="#fig-confusion">Figure&nbsp;<span class="quarto-unresolved-ref">fig-confusion</span></a>.</p>
+<p>The first and last cases where our predictions aligned with the actual values are called <em>true positives</em> and <em>true negatives</em> respectively. The case where the model predicted the woman to be diabetic while she did not have diabetes is called a <em>false positive</em> case, and the case where the model predicted the woman to be non-diabetic but she was in fact diabetic is called the <em>false-negative</em> case. This is illustrated in <a href="#fig-confusion">Figure&nbsp;<span>3.1</span></a>.</p>
 <div id="fig-confusion" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="images/confusion.png" class="img-fluid figure-img"></p>
@@ -275,7 +275,7 @@ In this chapter you’ll learn:
 </figure>
 </div>
 <p>When we just focus on a classification model’s accuracy, all these information is hidden from us.</p>
-<p>It is possible to generate a figure like <a href="#fig-confusion">Figure&nbsp;<span class="quarto-unresolved-ref">fig-confusion</span></a> in <code>scikit-learn</code>. For that, you need two functions, the <code>confusion_matrix</code> function to generate the confusion matrix and <code>ConfusionMatrixDisplay</code> function to generate the plot.</p>
+<p>It is possible to generate a figure like <a href="#fig-confusion">Figure&nbsp;<span>3.1</span></a> in <code>scikit-learn</code>. For that, you need two functions, the <code>confusion_matrix</code> function to generate the confusion matrix and <code>ConfusionMatrixDisplay</code> function to generate the plot.</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode" id="cb5"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating the confusion matrix </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> metrics<span class="op">:</span> confusion_matrix</span>

@@ -267,10 +267,10 @@ In this chapter you’ll learn:
 </section>
 <section id="implementing-a-simple-model" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="implementing-a-simple-model"><span class="header-section-number">2.2</span> Implementing a simple model</h2>
-<p>In this section we’ll learn how to implement a simple logistic regression model to predict if a woman is diabetic or not based on some of the medical information we have about that person. The dataset we are using in this section (refer <a href="#tbl-pima">Table&nbsp;<span class="quarto-unresolved-ref">tbl-pima</span></a>) is structurally similar to the food recipe example we had in the last section. Before getting into the nitty gritty details of model implementation, let’s learn more about Logistic Regression.</p>
+<p>In this section we’ll learn how to implement a simple logistic regression model to predict if a woman is diabetic or not based on some of the medical information we have about that person. The dataset we are using in this section (refer <a href="#tbl-pima">Table&nbsp;<span>2.1</span></a>) is structurally similar to the food recipe example we had in the last section. Before getting into the nitty gritty details of model implementation, let’s learn more about Logistic Regression.</p>
 <section id="logistic-regression" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">2.2.1</span> Logistic Regression</h3>
-<p>In <a href="#sec-ml">Section&nbsp;<span class="quarto-unresolved-ref">sec-ml</span></a>, we learned that a model is nothing but a mathematical representation of the relationship between the features (aka predictors) and the target. In the diabetes dataset, our target is the variable that predicts if a person is diabetic or not, and all other variables are considered features. We can represent this information in a general form as:</p>
+<p>In <a href="#sec-ml">Section&nbsp;<span>2.1</span></a>, we learned that a model is nothing but a mathematical representation of the relationship between the features (aka predictors) and the target. In the diabetes dataset, our target is the variable that predicts if a person is diabetic or not, and all other variables are considered features. We can represent this information in a general form as:</p>
 <p>Probability of being diabetic (i.e <code>Type</code> == 1) =</p>
 <p><span class="math inline">\(f(\)</span><code>NPreg</code>, <code>Glu</code>,<code>BP</code>, <code>Skin</code>, <code>BMI</code>, <code>Ped</code>, <code>Age</code><span class="math inline">\() =\)</span> <span class="math display">\[f(\theta_1 \times \text{NPreg} +
 \theta_2 \times \text{Glu} +
@@ -314,9 +314,9 @@ In this chapter you’ll learn:
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Instructions on how to create a new julia script is described in <a href="#sec-julia-files">Section&nbsp;<span class="quarto-unresolved-ref">sec-julia-files</span></a> and <a href="#sec-julia-script">Section&nbsp;<span class="quarto-unresolved-ref">sec-julia-script</span></a></li>
+<li>Instructions on how to create a new julia script is described in <a href="hellojulia.html#sec-julia-files">Section&nbsp;<span>1.2.3</span></a> and <a href="hellojulia.html#sec-julia-script">Section&nbsp;<span>1.2.4</span></a></li>
 </ul>
-<p>In this section we will require 3 packages (To learn how to install a package, refer <a href="#sec-install-package">Section&nbsp;<span class="quarto-unresolved-ref">sec-install-package</span></a>):</p>
+<p>In this section we will require 3 packages (To learn how to install a package, refer <a href="hellojulia.html#sec-install-package">Section&nbsp;<span>1.2.2</span></a>):</p>
 <ul>
 <li><code>RDatasets</code>: This package provides an easy access to a lot of toy datasets in machine learning.</li>
 <li><code>ScikitLearn</code>: One of the industry standard packages for doing machine learning projects. Provides utilities for model definition, training, testing, tuning, and much more.</li>
@@ -340,7 +340,7 @@ In this chapter you’ll learn:
 </section>
 <section id="step-3-loading-the-dataset" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="step-3-loading-the-dataset">Step 3: Loading the dataset</h3>
-<p>In this example, we will use the <em>Diabetes in Pima Indian Women dataset</em> (available via <code>RDatasets</code>). (Instruction on how to load a dataset that is available to you are a <code>.CSV</code> file is provided in the Appendix (<a href="#sec-appendix">Section&nbsp;<span class="quarto-unresolved-ref">sec-appendix</span></a>)). To load the dataset and show the first four observations, enter the following lines of code:</p>
+<p>In this example, we will use the <em>Diabetes in Pima Indian Women dataset</em> (available via <code>RDatasets</code>). (Instruction on how to load a dataset that is available to you are a <code>.CSV</code> file is provided in the Appendix (<span class="quarto-unresolved-ref">?sec-appendix</span>)). To load the dataset and show the first four observations, enter the following lines of code:</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="op">=</span> <span class="fu">dataset</span>(<span class="st">"MASS"</span>, <span class="st">"Pima.te"</span>);</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(diabetes,<span class="fl">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -448,7 +448,7 @@ In this chapter you’ll learn:
 </section>
 <section id="step-7-training-your-model" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="step-7-training-your-model">Step 7: Training your model</h3>
-<p>In <a href="#sec-optimization">Section&nbsp;<span class="quarto-unresolved-ref">sec-optimization</span></a>, you learned how an optimization algorithm helps the model to learn patterns in the data. The <code>fit!</code> function from <code>ScikitLearn</code> implements that procedure.</p>
+<p>In <a href="#sec-optimization">Section&nbsp;<span>2.2.2</span></a>, you learned how an optimization algorithm helps the model to learn patterns in the data. The <code>fit!</code> function from <code>ScikitLearn</code> implements that procedure.</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode" id="cb11"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(simplelogistic, features, target);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
