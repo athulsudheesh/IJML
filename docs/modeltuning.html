@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.178">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Introduction to Julia Machine Learning - 5&nbsp; Tuning your model</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <link href="./references.html" rel="next">
+  <link href="./generalizability.html" rel="prev">
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tuning your model</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./">
+      <img src="./Black and White Cube Graphic Design Book Cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introduction to Julia Machine Learning</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hellojulia.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstmodel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Evaluating Your Model’s Performance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generalizability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalizability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./modeltuning.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tuning your model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#grid-search" class="nav-link active" data-scroll-target="#grid-search"> <span class="header-section-number">5.1</span> Grid Search</a></li>
+<li><a href="#finding-available-hyperparameters" class="nav-link" data-scroll-target="#finding-available-hyperparameters">Finding available hyperparameters</a></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tuning your model</span></h1></div></header>
+
+<div class="callout-caution callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+In this chapter you’ll learn:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>What you mean by hyper-parameters and how to set them in your <code>scikit-learn</code> model.</li>
+<li>How to search the model hyperparameter space to find the best model.</li>
+<li>How to compare models with different hyperparameters.</li>
+</ol>
+</div>
+</div>
+<p>In the last chapter, we mentioned that models have some bells and whistles that you can tune to improve a model’s learning process. These tunable parts of the model are called <strong><em>hyperparameters</em></strong> in machine learning literature. These are different from the parameters of the model in the sense that model parameters are learned from the data and represent patterns in the data, whereas hyperparameters are parameters set by the machine learning developer and control the model’s architecture and learning process. Since the developer sets the hyperparameters, the optimal values that maximize the model performance are often found by trial and error. However, running each model several times with different combinations of hyperparameters and tracking the results manually can get tedious and error-prone. So we use some of the semi-automated methods of finding the hyperparameter.</p>
+<section id="grid-search" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="grid-search"><span class="header-section-number">5.1</span> Grid Search</h2>
+<p>One of the simplest and most often used semi-automated method for finding the optimal values for hyperparameters is the Grid Search method. In a grid search, we pass the list of values that we think are good candidates for the hyperparameters. The grid search algorithm then runs our model with all combinations of given hyperparameters and store all the results. The algorithm also stores the values that gave the best result separately as the best model (estimator).</p>
+</section>
+<section id="finding-available-hyperparameters" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="finding-available-hyperparameters">Finding available hyperparameters</h2>
+<p>The list of hyperparameters for your model can be found in the Scikit-learn’s documentation page. A simple google search of “your model name + scikit-learn” will take you to the correct documentation page. For our simple logistic model, you can search logistic classifier scikit-learn and it will take you to this <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">page</a>. In the model documentation page, all arguments/variables listed under the parameters section are hyperparameters of the model that you can play around with.</p>
+<p>Once we identify the hyperparameters we are interested in and the values we want to check, we call the <code>GridSearchCV</code> function from the <code>GridSearch</code> module in <code>scikit-learn</code>.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ScikitLearn.GridSearch</span>: GridSearchCV</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> linear_model<span class="op">:</span> LogisticRegression;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>gridsearch <span class="op">=</span> <span class="fu">GridSearchCV</span>(<span class="fu">LogisticRegression</span>(),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Dict</span>(<span class="op">:</span>solver <span class="op">=&gt;</span> [<span class="st">"newton-cg"</span>, <span class="st">"lbfgs"</span>, <span class="st">"liblinear"</span>], </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="op">:</span>C <span class="op">=&gt;</span> [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>]));</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The hyperparameters and their values are passed as a dictionary.</li>
+<li><code>:solver</code> corresponds to the different learning algorithms and <code>:C</code> hyperparameter is a regularization constant.</li>
+</ul>
+<p>Once we have initialized the grid search model object with the values we are interested in, we can call the <code>fit!</code> function to start the training process.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(gridsearch, features_train, target_train); </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The results of the grid search are stored in the <code>grid_scores_</code> field in <code>gridsearch</code> model object.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>search_results <span class="op">=</span> <span class="fu">DataFrame</span>(gridsearch.grid_scores_)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hcat</span>(<span class="fu">DataFrame</span>(search_results.parameters), </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            search_results)[!,<span class="fu">Not</span>(<span class="op">:</span>parameters)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="5">
+<div class="data-frame"><p>12 rows × 4 columns</p><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>solver</th><th>C</th><th>mean_validation_score</th><th>cv_validation_scores</th></tr><tr><th></th><th title="String">String</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Vector{Float64}">Array…</th></tr></thead><tbody><tr><th>1</th><td>newton-cg</td><td>0.01</td><td>0.806034</td><td>[0.782051, 0.844156, 0.792208]</td></tr><tr><th>2</th><td>lbfgs</td><td>0.01</td><td>0.806034</td><td>[0.782051, 0.844156, 0.792208]</td></tr><tr><th>3</th><td>liblinear</td><td>0.01</td><td>0.75</td><td>[0.730769, 0.766234, 0.753247]</td></tr><tr><th>4</th><td>newton-cg</td><td>0.1</td><td>0.814655</td><td>[0.807692, 0.831169, 0.805195]</td></tr><tr><th>5</th><td>lbfgs</td><td>0.1</td><td>0.814655</td><td>[0.807692, 0.831169, 0.805195]</td></tr><tr><th>6</th><td>liblinear</td><td>0.1</td><td>0.767241</td><td>[0.717949, 0.779221, 0.805195]</td></tr><tr><th>7</th><td>newton-cg</td><td>0.5</td><td>0.814655</td><td>[0.807692, 0.831169, 0.805195]</td></tr><tr><th>8</th><td>lbfgs</td><td>0.5</td><td>0.814655</td><td>[0.807692, 0.831169, 0.805195]</td></tr><tr><th>9</th><td>liblinear</td><td>0.5</td><td>0.775862</td><td>[0.730769, 0.805195, 0.792208]</td></tr><tr><th>10</th><td>newton-cg</td><td>0.9</td><td>0.810345</td><td>[0.807692, 0.818182, 0.805195]</td></tr><tr><th>11</th><td>lbfgs</td><td>0.9</td><td>0.810345</td><td>[0.807692, 0.818182, 0.805195]</td></tr><tr><th>12</th><td>liblinear</td><td>0.9</td><td>0.784483</td><td>[0.75641, 0.805195, 0.792208]</td></tr></tbody></table></div>
+</div>
+</div>
+<p>The best model is stored in the <code>best_estimator_</code> field in <code>gridsearch</code> model object.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>best_model <span class="op">=</span> gridsearch.best_estimator_ </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="6">
+<pre><code>PyObject LogisticRegression(C=0.1, solver='newton-cg')</code></pre>
+</div>
+</div>
+<p>We can now use the <code>best_model</code> object the way we used <code>simplelogisitc</code> for predictions and other stuffs.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia cell-code code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>best_model_predictions <span class="op">=</span> <span class="fu">predict</span>(best_model, features_train);</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(best_model_predictions,<span class="fl">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="7">
+<pre><code>4-element Vector{Any}:
+ "No"
+ "Yes"
+ "No"
+ "No"</code></pre>
+</div>
+</div>
+
+
+
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./generalizability.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalizability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

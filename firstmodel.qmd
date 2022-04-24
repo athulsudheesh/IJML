@@ -54,7 +54,7 @@ $\theta_4 \times$ `Pepper` +
 $\theta_5 \times$ `Broth_Oz` +
 $\theta_6 \times$ `Serves` $)$
 
-### Supervised, Unsupervised, and Semi-supervised learning 
+### Supervised, Unsupervised, and Semi-supervised learning {#sec-super}
 
 The parameters, $\theta_1, \theta_2, ....\theta_6$, represent the patterns in the given dataset and  the goal of a Machine Learning algorithm is to find values for $\theta_1, \theta_2, ....\theta_6$, so that I can reliably predict `Tastes` all the time. This type of machine learning problem, where I have information about the outcome of each attempt, is called ***supervised learning***. 
 

@@ -1,0 +1,88 @@
+# Tuning your model
+
+:::{.callout-caution icon="false"}
+# In this chapter you'll learn:
+1. What you mean by hyper-parameters and how to set them in your `scikit-learn` model.
+2. How to search the model hyperparameter space to find the best model. 
+3. How to compare models with different hyperparameters. 
+:::
+
+In the last chapter, we mentioned that models have some bells and whistles that you can tune to improve a model's learning process. These tunable parts of the model are called ***hyperparameters*** in machine learning literature. These are different from the parameters of the model in the sense that model parameters are learned from the data and represent patterns in the data, whereas hyperparameters are parameters set by the machine learning developer and control the model's architecture and learning process. Since the developer sets the hyperparameters, the optimal values that maximize the model performance are often found by trial and error. However, running each model several times with different combinations of hyperparameters and tracking the results manually can get tedious and error-prone. So we use some of the semi-automated methods of finding the hyperparameter. 
+
+## Grid Search
+
+One of the simplest and most often used semi-automated method for finding the optimal values for hyperparameters is the Grid Search method. In a grid search, we pass the list of values that we think are good candidates for the hyperparameters. The grid search algorithm then runs our model with all combinations of given hyperparameters and store all the results. The algorithm also stores the values that gave the best result separately as the best model (estimator). 
+
+## Finding available hyperparameters {.unnumbered}
+
+The list of hyperparameters for your model can be found in the Scikit-learn's documentation page. A simple google search of "your model name + scikit-learn" will take you to the correct documentation page. For our simple logistic model, you can search logistic classifier scikit-learn and it will take you to this [page](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html). In the model documentation page, all arguments/variables listed under the parameters section are hyperparameters of the model that you can play around with. 
+
+Once we identify the hyperparameters we are interested in and the values we want to check, we call the `GridSearchCV` function from the `GridSearch` module in `scikit-learn`.
+
+
+```{julia}
+#| echo: false
+#| warning: false
+# output: false 
+# Activating the local project environment 
+using Pkg;
+Pkg.activate(".");
+
+# Loading the packages 
+using ScikitLearn, RDatasets, DataFrames;
+
+# Loading the dataset
+diabetes = dataset("MASS", "Pima.te");
+first(diabetes,4);
+
+# Choosing the features and target
+features = Array(diabetes[!, Not(:Type)]);
+target = Array(diabetes[!, :Type]);
+
+@sk_import model_selection: train_test_split;
+features_train, features_test, 
+    target_train, target_test = train_test_split(features, 
+        target, test_size=0.3, random_state=42);
+
+```
+
+```{julia}
+#| warning: false
+using ScikitLearn.GridSearch: GridSearchCV
+@sk_import linear_model: LogisticRegression;
+gridsearch = GridSearchCV(LogisticRegression(),
+            Dict(:solver => ["newton-cg", "lbfgs", "liblinear"], 
+            :C => [0.01, 0.1, 0.5, 0.9]));
+```
+
+- The hyperparameters and their values are passed as a dictionary.
+- `:solver` corresponds to the different learning algorithms and `:C` hyperparameter is a regularization constant. 
+
+Once we have initialized the grid search model object with the values we are interested in, we can call the `fit!` function to start the training process. 
+
+```{julia}
+#| warning: false
+fit!(gridsearch, features_train, target_train); 
+```
+
+The results of the grid search are stored in the `grid_scores_` field in `gridsearch` model object.
+
+```{julia}
+#| warning: false
+search_results = DataFrame(gridsearch.grid_scores_)
+hcat(DataFrame(search_results.parameters), 
+            search_results)[!,Not(:parameters)]
+```
+
+The best model is stored in the `best_estimator_` field in `gridsearch` model object.
+
+```{julia}
+best_model = gridsearch.best_estimator_ 
+```
+
+We can now use the `best_model` object the way we used `simplelogisitc` for predictions and other stuffs.
+
+```{julia}
+best_model_predictions = predict(best_model, features_train);
+first(best_model_predictions,4)
+```

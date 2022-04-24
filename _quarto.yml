@@ -13,7 +13,7 @@ book:
     - firstmodel.qmd
     - evaluation.qmd
     - generalizability.qmd
-    - summary.qmd
+    - modeltuning.qmd
     - references.qmd
   sidebar: 
     border: true
