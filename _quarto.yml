@@ -28,5 +28,5 @@ format:
     documentclass: book
 
 website: 
-  google-analytics: "G-Y5C915Y3DF"
-  storage: none
+    google-analytics: "G-Y5C915Y3DF"
+    storage: none
