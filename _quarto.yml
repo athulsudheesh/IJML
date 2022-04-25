@@ -14,10 +14,9 @@ book:
     - evaluation.qmd
     - generalizability.qmd
     - modeltuning.qmd
-    - references.qmd
   sidebar: 
     border: true
-bibliography: references.bib
+#bibliography: references.bib
 
 format:
   html:
@@ -28,5 +27,6 @@ format:
   pdf:
     documentclass: book
 
-
-
+website: 
+  google-analytics: "G-Y5C915Y3DF"
+  storage: none
