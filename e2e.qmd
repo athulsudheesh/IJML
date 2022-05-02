@@ -1,3 +1,7 @@
+---
+execute:
+  freeze: true
+---
 # The End-to-end Workflow: A recap
 
 :::{.callout-caution icon="false"}

@@ -34,4 +34,7 @@ format:
     reader-mode: true
     include-in-header:
       - analytics.html
+    comments:
+      utterances:
+        repo: athulsudheesh/IJML
 
