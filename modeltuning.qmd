@@ -73,6 +73,7 @@ search_results = DataFrame(gridsearch.grid_scores_)
 hcat(DataFrame(search_results.parameters), 
             search_results)[!,Not(:parameters)]
 ```
+- The first line converts the grid search results into a dataframe and the second line cleans the dataframe into a more readable form.
 
 The best model is stored in the `best_estimator_` field in `gridsearch` model object.
 
@@ -83,6 +84,34 @@ best_model = gridsearch.best_estimator_
 We can now use the `best_model` object the way we used `simplelogisitc` for predictions and other stuffs.
 
 ```{julia}
+best_model_predictions = predict(best_model, features_train);
+first(best_model_predictions,4)
+```
+
+### Code Summary for Chapter 5 {.unnumbered}
+
+```{julia}
+#| eval: false 
+
+using ScikitLearn.GridSearch: GridSearchCV
+@sk_import linear_model: LogisticRegression;
+gridsearch = GridSearchCV(LogisticRegression(),
+            Dict(:solver => ["newton-cg", "lbfgs", "liblinear"], 
+            :C => [0.01, 0.1, 0.5, 0.9]));
+
+# Training the model with candiadate hyperparameters
+fit!(gridsearch, features_train, target_train); 
+
+# Cleaning the grid search results and printing 
+# them as dataframes
+search_results = DataFrame(gridsearch.grid_scores_)
+hcat(DataFrame(search_results.parameters), 
+            search_results)[!,Not(:parameters)]
+
+# Extracting the bestg model from grid search
+best_model = gridsearch.best_estimator_ 
+
+# Making predictions using the best model
 best_model_predictions = predict(best_model, features_train);
 first(best_model_predictions,4)
 ```

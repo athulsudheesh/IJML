@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.342">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Introduction to Julia Machine Learning - 6&nbsp; The End-to-end Workflow: A recap</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./modeltuning.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The End-to-end Workflow: A recap</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./">
+      <img src="./Black and White Cube Graphic Design Book Cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introduction to Julia Machine Learning</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hellojulia.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hello Julia!</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./firstmodel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Your First Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Evaluating Your Model’s Performance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generalizability.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalizability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./modeltuning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tuning your model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./e2e.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The End-to-end Workflow: A recap</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#i.-environment-setup" id="toc-i.-environment-setup" class="nav-link active" data-scroll-target="#i.-environment-setup">I. Environment Setup</a>
+  <ul class="collapse">
+  <li><a href="#step-1-open-the-project-folder-in-vs-code" id="toc-step-1-open-the-project-folder-in-vs-code" class="nav-link" data-scroll-target="#step-1-open-the-project-folder-in-vs-code">Step 1: Open the <strong>Project</strong> folder in VS Code</a></li>
+  <li><a href="#step-2-start-julia-repl" id="toc-step-2-start-julia-repl" class="nav-link" data-scroll-target="#step-2-start-julia-repl">Step 2: Start Julia REPL</a></li>
+  <li><a href="#step-3-activate-project-environment" id="toc-step-3-activate-project-environment" class="nav-link" data-scroll-target="#step-3-activate-project-environment">Step 3: Activate Project Environment</a></li>
+  </ul></li>
+  <li><a href="#step-4-create-new-julia-file-for-your-project" id="toc-step-4-create-new-julia-file-for-your-project" class="nav-link" data-scroll-target="#step-4-create-new-julia-file-for-your-project">Step 4: Create new Julia file for your project</a>
+  <ul class="collapse">
+  <li><a href="#step-5-make-sure-you-have-the-required-packages" id="toc-step-5-make-sure-you-have-the-required-packages" class="nav-link" data-scroll-target="#step-5-make-sure-you-have-the-required-packages">Step 5: Make sure you have the required packages</a></li>
+  <li><a href="#step-6-load-the-packages" id="toc-step-6-load-the-packages" class="nav-link" data-scroll-target="#step-6-load-the-packages">Step 6: Load the packages</a></li>
+  </ul></li>
+  <li><a href="#ii.-data" id="toc-ii.-data" class="nav-link" data-scroll-target="#ii.-data">II. Data</a>
+  <ul class="collapse">
+  <li><a href="#step-7-load-the-data" id="toc-step-7-load-the-data" class="nav-link" data-scroll-target="#step-7-load-the-data">Step 7: Load the Data</a></li>
+  <li><a href="#step-8-inspect-the-data-columns" id="toc-step-8-inspect-the-data-columns" class="nav-link" data-scroll-target="#step-8-inspect-the-data-columns">Step 8: Inspect the data columns</a></li>
+  <li><a href="#step-9-extract-the-features-and-target" id="toc-step-9-extract-the-features-and-target" class="nav-link" data-scroll-target="#step-9-extract-the-features-and-target">Step 9: Extract the features and target</a></li>
+  </ul></li>
+  <li><a href="#iii.-model-training" id="toc-iii.-model-training" class="nav-link" data-scroll-target="#iii.-model-training">III. Model Training</a>
+  <ul class="collapse">
+  <li><a href="#step-10-split-the-data-into-training-set-and-test-set." id="toc-step-10-split-the-data-into-training-set-and-test-set." class="nav-link" data-scroll-target="#step-10-split-the-data-into-training-set-and-test-set.">Step 10: Split the data into training set and test set.</a></li>
+  <li><a href="#step-11-build-a-baseline-model" id="toc-step-11-build-a-baseline-model" class="nav-link" data-scroll-target="#step-11-build-a-baseline-model">Step 11: Build a baseline model</a></li>
+  <li><a href="#step-12-check-the-accuracy-of-your-baseline-model" id="toc-step-12-check-the-accuracy-of-your-baseline-model" class="nav-link" data-scroll-target="#step-12-check-the-accuracy-of-your-baseline-model">Step 12: Check the accuracy of your baseline model</a></li>
+  <li><a href="#step-13-create-a-slightly-complicated-model-and-check-its-accuracy" id="toc-step-13-create-a-slightly-complicated-model-and-check-its-accuracy" class="nav-link" data-scroll-target="#step-13-create-a-slightly-complicated-model-and-check-its-accuracy">Step 13: Create a slightly complicated model and check its accuracy</a></li>
+  <li><a href="#step-14-search-the-model-space-for-better-hyperparameters-with-3-fold-cross-validated-training" id="toc-step-14-search-the-model-space-for-better-hyperparameters-with-3-fold-cross-validated-training" class="nav-link" data-scroll-target="#step-14-search-the-model-space-for-better-hyperparameters-with-3-fold-cross-validated-training">Step 14: Search the model space for better hyperparameters with 3-Fold cross validated training</a></li>
+  <li><a href="#step-15-repeat-gridsearchcv-for-other-models-you-have" id="toc-step-15-repeat-gridsearchcv-for-other-models-you-have" class="nav-link" data-scroll-target="#step-15-repeat-gridsearchcv-for-other-models-you-have">Step 15: Repeat GridSearchCV for other models you have</a></li>
+  <li><a href="#step-16-compare-the-results-of-competing-models-on-test-set" id="toc-step-16-compare-the-results-of-competing-models-on-test-set" class="nav-link" data-scroll-target="#step-16-compare-the-results-of-competing-models-on-test-set">Step 16: Compare the results of competing models on test set</a></li>
+  <li><a href="#step-17-save-your-best-model-for-production" id="toc-step-17-save-your-best-model-for-production" class="nav-link" data-scroll-target="#step-17-save-your-best-model-for-production">Step 17: Save your best model for production</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The End-to-end Workflow: A recap</span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-caution callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+In this chapter:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will do a recap of everything we have learned until now.</p>
+</div>
+</div>
+<section id="i.-environment-setup" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="i.-environment-setup">I. Environment Setup</h2>
+<section id="step-1-open-the-project-folder-in-vs-code" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-1-open-the-project-folder-in-vs-code">Step 1: Open the <strong>Project</strong> folder in VS Code</h3>
+<p>Go to File –&gt; Open Folder.</p>
+</section>
+<section id="step-2-start-julia-repl" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-2-start-julia-repl">Step 2: Start Julia REPL</h3>
+<p>Press <code>Cmd</code> + <code>Shift</code> + <code>P</code> (Mac) / <code>Ctrl</code> + <code>Shift</code> + <code>P</code> (Windows), and then search for <code>Julia: Start REPL</code>. Hit enter to choose the option from the dropdown menu</p>
+</section>
+<section id="step-3-activate-project-environment" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-3-activate-project-environment">Step 3: Activate Project Environment</h3>
+<ul>
+<li>Go to package manager mode. (Press <code>]</code> while in Julia REPL to go to Package Manager mode). Then type <code>activate .</code> and hit enter. Now you should see your project folder name instead of <code>(@v1.7) pkg&gt;</code>.</li>
+<li>Return to Julia REPL mode by hitting backspace</li>
+</ul>
+</section>
+</section>
+<section id="step-4-create-new-julia-file-for-your-project" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="step-4-create-new-julia-file-for-your-project">Step 4: Create new Julia file for your project</h2>
+<ul>
+<li>Go to File –&gt; New File</li>
+<li>Save the file with a name you like. To save the file you can do <code>Cmd</code> + <code>S</code> / <code>Ctrl</code> + <code>S</code>.</li>
+</ul>
+<section id="step-5-make-sure-you-have-the-required-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-5-make-sure-you-have-the-required-packages">Step 5: Make sure you have the required packages</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">status</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>CSV</li>
+<li>DataFrames</li>
+<li>PyPlot</li>
+<li>ScikitLearn</li>
+</ul>
+<p>If some packages are missing, you’ll get an error in the next step.</p>
+</section>
+<section id="step-6-load-the-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-6-load-the-packages">Step 6: Load the packages</h3>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ScikitLearn</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PyPlot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="ii.-data" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="ii.-data">II. Data</h2>
+<section id="step-7-load-the-data" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-7-load-the-data">Step 7: Load the Data</h3>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pathtodata <span class="op">=</span> <span class="fu">joinpath</span>(<span class="fu">pwd</span>(), <span class="st">"diabetes.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> CSV.<span class="fu">read</span>(pathtodata, DataFrame);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Instead of <code>diabetes.csv</code>, pass your dataset name.</li>
+</ul>
+</section>
+<section id="step-8-inspect-the-data-columns" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-8-inspect-the-data-columns">Step 8: Inspect the data columns</h3>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(data,<span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="data-frame"><p>5 rows × 8 columns</p><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>npreg</th><th>glu</th><th>bp</th><th>skin</th><th>bmi</th><th>ped</th><th>age</th><th>type</th></tr><tr><th></th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Int64">Int64</th><th title="String3">String3</th></tr></thead><tbody><tr><th>1</th><td>6</td><td>148</td><td>72</td><td>35</td><td>33.6</td><td>0.627</td><td>50</td><td>Yes</td></tr><tr><th>2</th><td>1</td><td>85</td><td>66</td><td>29</td><td>26.6</td><td>0.351</td><td>31</td><td>No</td></tr><tr><th>3</th><td>1</td><td>89</td><td>66</td><td>23</td><td>28.1</td><td>0.167</td><td>21</td><td>No</td></tr><tr><th>4</th><td>3</td><td>78</td><td>50</td><td>32</td><td>31.0</td><td>0.248</td><td>26</td><td>Yes</td></tr><tr><th>5</th><td>2</td><td>197</td><td>70</td><td>45</td><td>30.5</td><td>0.158</td><td>53</td><td>Yes</td></tr></tbody></table></div>
+</div>
+</div>
+<ul>
+<li>If you find columns that are redundant or meaningless, delete those columns. For example, suppose we had a meaningless column called <code>RowNo</code>. To delete the column you can use the command <code>data = select(data,Not(:RowNo))</code>. Make sure you only run the delete command once per column. Trying to run it multiple times will give you an error.</li>
+</ul>
+</section>
+<section id="step-9-extract-the-features-and-target" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-9-extract-the-features-and-target">Step 9: Extract the features and target</h3>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> <span class="fu">Array</span>(data[!,<span class="fu">Not</span>(<span class="op">:</span>type)]);</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fu">Array</span>(data[!, <span class="op">:</span>type]);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Instead of <code>:type</code> in the above code, you should use the column name you have for your target.</li>
+</ul>
+</section>
+</section>
+<section id="iii.-model-training" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="iii.-model-training">III. Model Training</h2>
+<section id="step-10-split-the-data-into-training-set-and-test-set." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-10-split-the-data-into-training-set-and-test-set.">Step 10: Split the data into training set and test set.</h3>
+<div class="cell" data-freeze="true" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> model_selection<span class="op">:</span> train_test_split;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, Y_train, Y_test <span class="op">=</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">train_test_split</span>(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="fl">42</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Here I chose 20% for test set (so 80% of the actual data will be used for training).</li>
+</ul>
+</section>
+<section id="step-11-build-a-baseline-model" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-11-build-a-baseline-model">Step 11: Build a baseline model</h3>
+<p>Before going into complicated models, it’s recommended that you try a simple model first. You’ll call this your baseline model. In our case, we’ll have a simple logistic regression model our baseline.</p>
+<div class="cell" data-freeze="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> linear_model<span class="op">:</span> LogisticRegression;</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>simplelogistic <span class="op">=</span><span class="fu">LogisticRegression</span>();</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(simplelogistic, X_train, Y_train);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-12-check-the-accuracy-of-your-baseline-model" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-12-check-the-accuracy-of-your-baseline-model">Step 12: Check the accuracy of your baseline model</h3>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> metrics<span class="op">:</span> accuracy_score</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Y_pred_train <span class="op">=</span> <span class="fu">predict</span>(simplelogistic,X_train);</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">accuracy_score</span>(Y_train,Y_pred_train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.7886792452830189</code></pre>
+</div>
+</div>
+</section>
+<section id="step-13-create-a-slightly-complicated-model-and-check-its-accuracy" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-13-create-a-slightly-complicated-model-and-check-its-accuracy">Step 13: Create a slightly complicated model and check its accuracy</h3>
+<p>We’ll have a shallow neural network with one hidden layer and 5 nodes as our slightly complicated model.</p>
+<div class="cell" data-freeze="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> neural_network<span class="op">:</span> MLPClassifier;</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>simpleneuralnetwork <span class="op">=</span> <span class="fu">MLPClassifier</span>(hidden_layer_sizes<span class="op">=</span>(<span class="fl">5</span>));</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(simpleneuralnetwork, X_train, Y_train);</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Y_pred_train <span class="op">=</span> <span class="fu">predict</span>(simpleneuralnetwork,X_train);</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">accuracy_score</span>(Y_train,Y_pred_train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.6867924528301886</code></pre>
+</div>
+</div>
+</section>
+<section id="step-14-search-the-model-space-for-better-hyperparameters-with-3-fold-cross-validated-training" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-14-search-the-model-space-for-better-hyperparameters-with-3-fold-cross-validated-training">Step 14: Search the model space for better hyperparameters with 3-Fold cross validated training</h3>
+<div class="cell" data-freeze="true" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ScikitLearn.GridSearch</span>: GridSearchCV</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gridsearch_logistic <span class="op">=</span> <span class="fu">GridSearchCV</span>(<span class="fu">LogisticRegression</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Dict</span>(<span class="op">:</span>solver <span class="op">=&gt;</span> [<span class="st">"newton-cg"</span>, <span class="st">"lbfgs"</span>, <span class="st">"liblinear"</span>], </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="op">:</span>C <span class="op">=&gt;</span> [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>]))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(gridsearch_logistic, X_train, Y_train);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>:C</code> is a regularization parameter.</li>
+<li>For more hyperparameters that are tweakable, please refer to LogisticRegression’s ScikitLearn documentation page.</li>
+</ul>
+<section id="print-the-results-of-hyperparameter-search" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="print-the-results-of-hyperparameter-search">Print the results of hyperparameter search</h4>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gridsearch_logistic_results <span class="op">=</span> <span class="fu">DataFrame</span>(gridsearch_logistic.grid_scores_);</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hcat</span>(<span class="fu">DataFrame</span>(gridsearch_logistic_results.parameters), </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    gridsearch_logistic_results)[!,<span class="fu">Not</span>(<span class="op">:</span>parameters)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="data-frame"><p>12 rows × 4 columns</p><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>solver</th><th>C</th><th>mean_validation_score</th><th>cv_validation_scores</th></tr><tr><th></th><th title="String">String</th><th title="Float64">Float64</th><th title="Float64">Float64</th><th title="Vector{Float64}">Array…</th></tr></thead><tbody><tr><th>1</th><td>newton-cg</td><td>0.01</td><td>0.8</td><td>[0.764045, 0.829545, 0.806818]</td></tr><tr><th>2</th><td>lbfgs</td><td>0.01</td><td>0.8</td><td>[0.764045, 0.829545, 0.806818]</td></tr><tr><th>3</th><td>liblinear</td><td>0.01</td><td>0.720755</td><td>[0.696629, 0.715909, 0.75]</td></tr><tr><th>4</th><td>newton-cg</td><td>0.1</td><td>0.796226</td><td>[0.775281, 0.806818, 0.806818]</td></tr><tr><th>5</th><td>lbfgs</td><td>0.1</td><td>0.796226</td><td>[0.775281, 0.806818, 0.806818]</td></tr><tr><th>6</th><td>liblinear</td><td>0.1</td><td>0.735849</td><td>[0.719101, 0.704545, 0.784091]</td></tr><tr><th>7</th><td>newton-cg</td><td>0.5</td><td>0.784906</td><td>[0.775281, 0.772727, 0.806818]</td></tr><tr><th>8</th><td>lbfgs</td><td>0.5</td><td>0.784906</td><td>[0.775281, 0.772727, 0.806818]</td></tr><tr><th>9</th><td>liblinear</td><td>0.5</td><td>0.739623</td><td>[0.707865, 0.727273, 0.784091]</td></tr><tr><th>10</th><td>newton-cg</td><td>0.9</td><td>0.792453</td><td>[0.775281, 0.772727, 0.829545]</td></tr><tr><th>11</th><td>lbfgs</td><td>0.9</td><td>0.792453</td><td>[0.775281, 0.772727, 0.829545]</td></tr><tr><th>12</th><td>liblinear</td><td>0.9</td><td>0.754717</td><td>[0.730337, 0.738636, 0.795455]</td></tr></tbody></table></div>
+</div>
+</div>
+<p>The best model from the grid search will be saved in <code>best_estimator_</code> field of your grid search training results.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>best_logistic_model <span class="op">=</span> gridsearch_logistic.best_estimator_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>PyObject LogisticRegression(C=0.01, solver='newton-cg')</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="step-15-repeat-gridsearchcv-for-other-models-you-have" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-15-repeat-gridsearchcv-for-other-models-you-have">Step 15: Repeat GridSearchCV for other models you have</h3>
+<ul>
+<li>Just don’t simply use the list of numbers I have used for the <code>hidden_layer_sizes</code>. It might make sense to have 1000s of nodes and many hidden layers if you are doing image processing.</li>
+</ul>
+<p>Sometimes, you might have to do multiple grid search rounds with different hyperparameter settings to find the most optimal values.</p>
+<div class="cell" data-freeze="true" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gridsearch_neuralnet <span class="op">=</span> <span class="fu">GridSearchCV</span>(<span class="fu">MLPClassifier</span>(),</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Dict</span>(<span class="op">:</span>solver <span class="op">=&gt;</span> [<span class="st">"sgd"</span>, <span class="st">"lbfgs"</span>, <span class="st">"adam"</span>], </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>            <span class="op">:</span>hidden_layer_sizes <span class="op">=&gt;</span> [(<span class="fl">2</span>), (<span class="fl">20</span>), (<span class="fl">1</span>,<span class="fl">5</span>,<span class="fl">10</span>), (<span class="fl">10</span>,<span class="fl">10</span>), (<span class="fl">10</span>,<span class="fl">20</span>,<span class="fl">10</span>)]))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fit!</span>(gridsearch_neuralnet, X_train, Y_train);</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>gridsearch_neuralnet_results <span class="op">=</span> <span class="fu">DataFrame</span>(gridsearch_neuralnet.grid_scores_);</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hcat</span>(<span class="fu">DataFrame</span>(gridsearch_neuralnet_results.parameters),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    gridsearch_neuralnet_results)[!,<span class="fu">Not</span>(<span class="op">:</span>parameters)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="data-frame"><p>15 rows × 4 columns</p><table class="data-frame table table-sm table-striped"><thead><tr><th></th><th>solver</th><th>hidden_layer_sizes</th><th>mean_validation_score</th><th>cv_validation_scores</th></tr><tr><th></th><th title="String">String</th><th title="Any">Any</th><th title="Float64">Float64</th><th title="Vector{Float64}">Array…</th></tr></thead><tbody><tr><th>1</th><td>sgd</td><td>2</td><td>0.437736</td><td>[0.314607, 0.693182, 0.306818]</td></tr><tr><th>2</th><td>lbfgs</td><td>2</td><td>0.70566</td><td>[0.730337, 0.693182, 0.693182]</td></tr><tr><th>3</th><td>adam</td><td>2</td><td>0.426415</td><td>[0.662921, 0.306818, 0.306818]</td></tr><tr><th>4</th><td>sgd</td><td>20</td><td>0.716981</td><td>[0.685393, 0.715909, 0.75]</td></tr><tr><th>5</th><td>lbfgs</td><td>20</td><td>0.69434</td><td>[0.707865, 0.659091, 0.715909]</td></tr><tr><th>6</th><td>adam</td><td>20</td><td>0.626415</td><td>[0.651685, 0.715909, 0.511364]</td></tr><tr><th>7</th><td>sgd</td><td>(1, 5, 10)</td><td>0.690566</td><td>[0.685393, 0.693182, 0.693182]</td></tr><tr><th>8</th><td>lbfgs</td><td>(1, 5, 10)</td><td>0.690566</td><td>[0.685393, 0.693182, 0.693182]</td></tr><tr><th>9</th><td>adam</td><td>(1, 5, 10)</td><td>0.735849</td><td>[0.741573, 0.693182, 0.772727]</td></tr><tr><th>10</th><td>sgd</td><td>(10, 10)</td><td>0.724528</td><td>[0.685393, 0.772727, 0.715909]</td></tr><tr><th>11</th><td>lbfgs</td><td>(10, 10)</td><td>0.732075</td><td>[0.617978, 0.761364, 0.818182]</td></tr><tr><th>12</th><td>adam</td><td>(10, 10)</td><td>0.596226</td><td>[0.662921, 0.443182, 0.681818]</td></tr><tr><th>13</th><td>sgd</td><td>(10, 20, 10)</td><td>0.709434</td><td>[0.662921, 0.715909, 0.75]</td></tr><tr><th>14</th><td>lbfgs</td><td>(10, 20, 10)</td><td>0.732075</td><td>[0.696629, 0.795455, 0.704545]</td></tr><tr><th>15</th><td>adam</td><td>(10, 20, 10)</td><td>0.698113</td><td>[0.674157, 0.693182, 0.727273]</td></tr></tbody></table></div>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>best_neuralnetwork_model <span class="op">=</span> gridsearch_neuralnet.best_estimator_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>PyObject MLPClassifier(hidden_layer_sizes=(1, 5, 10))</code></pre>
+</div>
+</div>
+</section>
+<section id="step-16-compare-the-results-of-competing-models-on-test-set" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-16-compare-the-results-of-competing-models-on-test-set">Step 16: Compare the results of competing models on test set</h3>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sk_import</span> metrics<span class="op">:</span> accuracy_score</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Y_pred_test_logistic <span class="op">=</span> <span class="fu">predict</span>(best_logistic_model, X_test)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>logistic_accuracy <span class="op">=</span> <span class="fu">accuracy_score</span>(Y_test,Y_pred_test_logistic)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Y_pred_test_neural <span class="op">=</span> <span class="fu">predict</span>(best_neuralnetwork_model, X_test)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>neural_accuracy <span class="op">=</span> <span class="fu">accuracy_score</span>(Y_test,Y_pred_test_neural)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> [<span class="st">"logistic"</span>,<span class="st">"neural"</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> [logistic_accuracy, neural_accuracy]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the results </span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PyPlot  </span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> PyPlot.<span class="fu">bar</span>(x <span class="op">=</span> models, height <span class="op">=</span> scores<span class="op">*</span><span class="fl">100</span>);</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"Models"</span>); </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"Accuracy Score"</span>); </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="e2e_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Here we have used accuracy for comparison. You can also use precision, recall, or f1 score in a similar fashion for comparing models, depending on the domain of prediction.</p>
+</section>
+<section id="step-17-save-your-best-model-for-production" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="step-17-save-your-best-model-for-production">Step 17: Save your best model for production</h3>
+<p>The model you found to be the best performing one can be saved to the disk so that you don’t have to train your models every time you restart Julia or you want to make predictions. We’ll need three packages to save a <code>scikit-learn</code> model: <code>PyCall</code>, <code>PyCallJLD</code>, and <code>JLD</code></p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PyCall</span>, <span class="bu">JLD</span>, <span class="bu">PyCallJLD</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(<span class="st">"saved_file.jld"</span>, <span class="st">"diabetic_prediction"</span>, best_logistic_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The save function takes three arguments: the name of the file, the name you want to give to the model, the trained model.</li>
+</ul>
+<p>To load a saved <code>scikit-learn</code> model, you can use the load function:</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>logistic_model <span class="op">=</span> <span class="fu">load</span>(<span class="st">"saved_file.jld"</span>, <span class="st">"diabetic_prediction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>PyObject LogisticRegression(C=0.01, solver='newton-cg')</code></pre>
+</div>
+</div>
+<p>Now let’s check if our loaded model is working.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(logistic_model, X_test)[<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>4-element Vector{Any}:
+ "No"
+ "No"
+ "No"
+ "No"</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./modeltuning.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tuning your model</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

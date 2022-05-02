@@ -9,7 +9,7 @@
 
 :::
 
-## Did our model cheat?
+## Did our model cheat? 
 
 In the last chapter, we learned how to check our model's performance using various metrics. But how do we know that our model really learned the patterns in the data and is not cheating by rote-memorizing the data? Think about how we would have assessed a human learner in this situation.
 
@@ -51,6 +51,7 @@ features_train, features_test,
 - The first two are the `features` and the `target`
 - The third argument is `test_size` and specifies the proportion of the data that needs to kept aside for testing. In the above code, we have asked to keep aside 30% of the data as test set.  
 - `random_state` is an optional argument and set's the seed for randomness.
+
 Now, instead of training the model on the entire dataset, we'll train our model with training set. 
 
 
@@ -116,6 +117,8 @@ cv_results = cross_validate(simplelogistic,
             scoring=["accuracy",
                  "recall_weighted", "precision_weighted"]);
 ```
+- `cross_validate` function has three mandatroy arguments: the model, features, and the target. By default `cross_validate` uses 5-folds for cross validation. 
+- If you are interested in measures other than accuracy, you can pass the list of metrics with `scoring` argument. 
 
 To print the results from cross validation in a more human readable table form, we can use the following lines of code: 
 
@@ -137,6 +140,8 @@ To compute the cross validated average model performance measures, we can print 
 #| tbl-cap: "Cross validated average model performance measures"
 describe(cv_df)[!,[:variable, :mean]]
 ```
+- `describe` is a function from `DataFrames` package that returns summary statistics like mean, mode, median, minimum value, maximum value, etc., for a given dataframe. We can use this function to otain the mean values for our performance measures.
+
 
 ## Learning curves: Can more data improve model training?
 
@@ -200,13 +205,13 @@ y_err = vec(std(test_scores, dims=2))
 using PyPlot
 begin 
     figure();
-    plot(train_sizes,
+    PyPlot.plot(train_sizes,
         vec(mean(test_scores, dims=2)), label="Cross Val");
 
     fill_between(train_sizes,
         y_ax - y_err, y_ax + y_err,alpha=0.2);
 
-    plot(train_sizes,
+    PyPlot.plot(train_sizes,
         vec(mean(train_scores, dims=2)), label="Training");
     xlabel("Training Size (% Data)"); 
     ylabel("Score"); 

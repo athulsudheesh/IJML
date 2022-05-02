@@ -2,6 +2,7 @@
 toc: false
 
 ---
+
 # Preface {.unnumbered}
 
 *Introduction to Julia Machine Learning with Scikit-Learn* is an open access book aimed at undergraduate students in non-CS majors who are taking their first course in machine learning. The book assumes very little to no prior knowledge of programming. It is designed in such a way that the book helps the students to get to speed developing machine learning models in the shortest time without diluting the fundamental concepts in ML. Although the book provides some introduction on the basics of setting up a project in Julia, it is no definitive guide to either programming or Julia Language.

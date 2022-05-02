@@ -1,5 +1,5 @@
-# Evaluating Your Model's Performance 
-
+# Evaluating Your Model's Performance
+ 
 :::{.callout-caution icon="false"}
 # In this chapter you'll learn:
 1. How to measure how good your model is.
@@ -51,6 +51,7 @@ logistic_target_predict = predict(simplelogistic,features);
 #| echo: false
 first(logistic_target_predict,4)
 ```
+- `predict` function has two arguments. The first one is the model from which you want the predictions and the second one is the data you want to predict on.
 
 Once we have the predicted values, we can pass the predicted values and the target values from our data to the `accuracy_score` function in the `metrics` module in `scikit-learn` to compute the accuracy of our model. 
 
@@ -58,6 +59,7 @@ Once we have the predicted values, we can pass the predicted values and the targ
 @sk_import metrics: accuracy_score
 print(accuracy_score(target,logistic_target_predict))
 ```
+- `accuracy_score` takes two arguments: the true targets (from your given dataset) and the predicted values for target (from your model).
 ```{julia}
 #| echo: false 
 #| output: false
@@ -106,7 +108,8 @@ using PyPlot
 figure() # Open a new canvas to plot
 
 # Generating the plot 
-disp = ConfusionMatrixDisplay(confusion_matrix=cf,display_labels=simplelogistic.classes_)
+disp = ConfusionMatrixDisplay(confusion_matrix=cf,
+            display_labels=simplelogistic.classes_)
 disp.plot() # Transferring the plot to the canvas
 gcf() # Freezing the canvas and printing it.
 ``` 
@@ -128,7 +131,7 @@ using PyPlot
 figure()
 disp = ConfusionMatrixDisplay(confusion_matrix=cf,
             display_labels=simplelogistic.classes_)
-disp.plot(); 
+#disp.plot(); 
 ```
 ## Why our model's confusion pattern matters?
 
@@ -168,6 +171,7 @@ To compute the recall, precision, f1 score, and accuracy with lesser lines of co
 
 
 ```{julia}
+#| warning: false
 @sk_import metrics: classification_report
 print(classification_report(target, logistic_target_predict))
 ```

@@ -1,7 +1,12 @@
+website: 
+  google-analytics: "G-Y5C915Y3DF"
+  twitter-card: true
+  opengraph: true
 project:
   type: book
-  output-dir: docs
-engine: julia 
+  output-dir: docs 
+execute:
+  daemon: 60000
 book:
   title: "Introduction to Julia Machine Learning"
   logo: Black and White Cube Graphic Design Book Cover.png
@@ -14,6 +19,7 @@ book:
     - evaluation.qmd
     - generalizability.qmd
     - modeltuning.qmd
+    - e2e.qmd
   sidebar: 
     border: true
 #bibliography: references.bib
@@ -24,10 +30,4 @@ format:
     fontsize: 12pt
     page-layout: article
     reader-mode: true
-  pdf:
-    documentclass: book
 
-website: 
-  google-analytics: "G-Y5C915Y3DF"
-  twitter-card: true
-  opengraph: true

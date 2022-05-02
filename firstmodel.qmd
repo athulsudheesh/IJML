@@ -100,7 +100,7 @@ $$\frac{1}{1 + e^{- (\theta_1 \times \text{NPreg} +
 \theta_6 \times \text{Ped} +
 \theta_7 \times \text{Age})}} \tag{3}$$
 
-Applying different parametric forms to equation (1) yields you different machine learning models. For e.g., if we had used an identity function i.e. $f(x) = x$, the model we got is called the linear regression model (*Note:* Linear Regression models are not used for classification problems. The type of the problem you are trying to solve always restricts the type of models you can use.). 
+Applying different parametric forms to equation (1) yields you different machine learning models. For e.g., if we had used an identity function i.e. $f(x) = x$, the model we get is called the linear regression model (*Note:* Linear Regression models are not used for classification problems. The type of the problem you are trying to solve always restricts the type of models you can use.). 
 
 By using an activation function where the function will return `Yes` if the value we get using equation (3) is greater than or equal to 0.50 and return `No` otherwise, we can get prediction from our model that is comparable to the target in our data. The discrepancy between our model's prediction and target is called the ***prediction error***. 
 
