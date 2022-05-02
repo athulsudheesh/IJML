@@ -32,4 +32,6 @@ format:
     fontsize: 12pt
     page-layout: article
     reader-mode: true
+    include-in-header:
+      - analytics.html
 
