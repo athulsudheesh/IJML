@@ -1,6 +1,5 @@
 website: 
-  google-analytics:
-    tracking-id: "G-Y5C915Y3DF"
+  google-analytics: "G-Y5C915Y3DF"
 
   twitter-card: true
   opengraph: true
