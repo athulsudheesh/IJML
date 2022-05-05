@@ -131,7 +131,7 @@ using PyPlot
 figure()
 disp = ConfusionMatrixDisplay(confusion_matrix=cf,
             display_labels=simplelogistic.classes_)
-#disp.plot(); 
+disp.plot(); 
 ```
 ## Why our model's confusion pattern matters?
 
